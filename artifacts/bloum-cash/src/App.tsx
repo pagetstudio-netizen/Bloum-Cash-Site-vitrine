@@ -29,7 +29,9 @@ function Router() {
       <Route path="/tarifs" component={Tarifs} />
       <Route path="/contact" component={Contact} />
       <Route path="/conditions" component={Conditions} />
+      <Route path="/conditions-generales-dutilisation" component={Conditions} />
       <Route path="/confidentialite" component={Confidentialite} />
+      <Route path="/politique-de-confidentialite" component={Confidentialite} />
       <Route path="/mentions-legales" component={MentionsLegales} />
       <Route component={NotFound} />
     </Switch>
