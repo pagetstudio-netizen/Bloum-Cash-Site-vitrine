@@ -1,6 +1,8 @@
 import Header from "@/components/sections/Header";
 import Hero from "@/components/sections/Hero";
+import TransferSection from "@/components/sections/TransferSection";
 import Features from "@/components/sections/Features";
+import AppShowcase from "@/components/sections/AppShowcase";
 import Security from "@/components/sections/Security";
 import Benefits from "@/components/sections/Benefits";
 import HowItWorks from "@/components/sections/HowItWorks";
@@ -15,7 +17,9 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
+        <TransferSection />
         <Features />
+        <AppShowcase />
         <Security />
         <Benefits />
         <HowItWorks />
