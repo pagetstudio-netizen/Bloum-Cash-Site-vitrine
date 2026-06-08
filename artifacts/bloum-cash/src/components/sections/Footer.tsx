@@ -1,7 +1,6 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from "react-icons/fa";
-import { ShieldAlert } from "lucide-react";
 import logoUrl from "@assets/LOGO_512x512.jpg_1780861295653.png";
 
 const footerLinks = {
@@ -35,19 +34,6 @@ export default function Footer() {
   return (
     <footer className="bg-[#1a1a5e] text-white pt-20 pb-10">
       <div className="container mx-auto px-4 md:px-6">
-
-        {/* Disclaimer légal */}
-        <div className="rounded-2xl bg-white/5 border border-white/10 p-5 mb-14 flex items-start gap-4">
-          <div className="w-9 h-9 rounded-xl bg-red-500/20 border border-red-400/30 flex items-center justify-center shrink-0 mt-0.5">
-            <ShieldAlert className="w-4 h-4 text-red-300" />
-          </div>
-          <div>
-            <p className="text-red-300 font-bold text-xs uppercase tracking-widest mb-1">⚠ Avertissement important</p>
-            <p className="text-blue-200/70 text-xs leading-relaxed">
-              <strong className="text-white">Bloum Cash n'est PAS une banque</strong> ni une institution financière. Bloum Cash agit uniquement comme une société <strong className="text-white">FINTECH</strong> facilitant ses services en partenariat avec des partenaires agréés et licenciés. Toutes les transactions financières sont fournies via des partenaires tiers autorisés. <strong className="text-white">ashtech Sarl</strong> est une société enregistrée légalement au Cameroun, spécialisée dans les infrastructures de paiement numérique pour l'Afrique.
-            </p>
-          </div>
-        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
           <div className="lg:col-span-2">
@@ -91,10 +77,7 @@ export default function Footer() {
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">
             <p className="text-blue-200/60 text-sm">
-              © 2026 Bloum Cash · ashtech Sarl — Yaoundé, Cameroun. Tous droits réservés.
-            </p>
-            <p className="text-blue-200/40 text-xs mt-1">
-              Opérations soumises aux réglementations locales et aux politiques AML/CFT.
+              © 2026 Bloum Cash. Tous droits réservés.
             </p>
           </div>
           <div className="flex items-center gap-3">

@@ -24,7 +24,7 @@ const tiers = [
     desc: "Pour un usage régulier et confortable",
     features: [
       "Transferts jusqu'à 200 000 FCFA/jour",
-      "Frais réduits à 2,5% par transfert",
+      "Frais de 3,5% par transfert",
       "2 comptes mobiles liés",
       "Historique illimité",
       "Support prioritaire",
@@ -40,7 +40,7 @@ const tiers = [
     desc: "Pour les professionnels et les grandes familles",
     features: [
       "Transferts illimités",
-      "Frais ultra-réduits à 1,5%",
+      "Frais de 3,5% par transfert",
       "5 comptes mobiles liés",
       "Historique illimité",
       "Support VIP 24/7",

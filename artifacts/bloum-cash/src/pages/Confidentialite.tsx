@@ -33,7 +33,7 @@ export default function Confidentialite() {
             <span className="text-primary">Confidentialité</span>
           </motion.h1>
           <motion.p {...fadeUp(0.1)} className="text-muted-foreground max-w-xl mx-auto">
-            Dernière mise à jour : Juin 2026 · Bloum Cash — ashtech Sarl, Cameroun
+            Dernière mise à jour : Juin 2026 · Bloum Cash
           </motion.p>
         </div>
       </section>
@@ -48,7 +48,7 @@ export default function Confidentialite() {
               <p className="font-bold text-foreground text-lg">Notre engagement envers votre vie privée</p>
             </div>
             <p className="text-muted-foreground leading-relaxed text-sm mb-6">
-              Chez Bloum Cash (ashtech Sarl), la protection de votre vie privée est une priorité absolue. Cette Politique de Confidentialité vous explique de manière claire et transparente comment nous collectons, utilisons, conservons et protégeons vos données personnelles. Nous traitons vos données dans le strict respect des lois sur la protection des données applicables au Cameroun, au Togo et dans les pays où nous opérons.
+              Chez Bloum Cash, la protection de votre vie privée est une priorité absolue. Cette Politique de Confidentialité vous explique de manière claire et transparente comment nous collectons, utilisons, conservons et protégeons vos données personnelles. Nous traitons vos données dans le strict respect des lois sur la protection des données applicables.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {principles.map((p, i) => (
@@ -58,16 +58,6 @@ export default function Confidentialite() {
                 </div>
               ))}
             </div>
-          </motion.div>
-
-          {/* Avertissement Bloum Cash n'est pas une banque */}
-          <motion.div {...fadeUp(0.05)} className="rounded-2xl border-2 border-red-300 bg-red-50 p-6 md:p-8">
-            <p className="text-red-700 font-extrabold text-base uppercase tracking-wide mb-2">
-              ⚠ Rappel — Bloum Cash n'est PAS une banque
-            </p>
-            <p className="text-red-700 text-sm leading-relaxed">
-              Bloum Cash agit en tant que société FINTECH facilitant des services via des partenaires agréés. Les données financières collectées sont traitées dans le cadre des réglementations <strong>AML/CFT</strong> (lutte contre le blanchiment et le financement du terrorisme) auxquelles sont soumis nos partenaires opérateurs. <strong>ashtech Sarl</strong> est une société enregistrée légalement au Cameroun, spécialisée dans les infrastructures de paiement numérique destinées à l'Afrique.
-            </p>
           </motion.div>
 
           {/* Sections détaillées */}
@@ -277,7 +267,6 @@ export default function Confidentialite() {
                 Formulaire de contact
               </a>
             </div>
-            <p className="text-blue-200 text-xs mt-4">ashtech Sarl · Yaoundé, Cameroun</p>
           </motion.div>
 
         </div>
