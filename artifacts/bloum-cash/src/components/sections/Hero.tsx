@@ -1,10 +1,9 @@
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Apple, Play } from "lucide-react";
 import { Link } from "wouter";
 import heroImage from "@assets/Image_fx_1780861320599.png";
 import banner1 from "@assets/20260607_084736_1780938066058.jpg";
 import banner2 from "@assets/20260607_090625_1780938066105.jpg";
+import StoreButtons from "@/components/StoreButtons";
 
 function AnimatedDashedLines() {
   const paths = [
@@ -150,30 +149,7 @@ export default function Hero() {
             <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
               Envoyez de l'argent instantanément entre TMoney et Moov Money, gérez vos transferts et profitez d'une expérience simple, rapide et sécurisée depuis votre téléphone.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-              <Link href="/telecharger">
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-                  <Button size="lg" className="bg-black hover:bg-gray-800 text-white rounded-full px-6 py-6 h-auto w-full sm:w-auto shadow-md">
-                    <Apple className="mr-2 h-6 w-6" />
-                    <div className="text-left">
-                      <div className="text-[10px] font-normal leading-none opacity-80">Télécharger sur</div>
-                      <div className="text-sm font-semibold leading-tight">l'App Store</div>
-                    </div>
-                  </Button>
-                </motion.div>
-              </Link>
-              <Link href="/telecharger">
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-                  <Button size="lg" className="bg-black hover:bg-gray-800 text-white rounded-full px-6 py-6 h-auto w-full sm:w-auto shadow-md">
-                    <Play className="mr-2 h-6 w-6" />
-                    <div className="text-left">
-                      <div className="text-[10px] font-normal leading-none opacity-80">DISPONIBLE SUR</div>
-                      <div className="text-sm font-semibold leading-tight">Google Play</div>
-                    </div>
-                  </Button>
-                </motion.div>
-              </Link>
-            </div>
+            <StoreButtons size="lg" />
           </motion.div>
 
           {/* Right Column: Hero Image */}

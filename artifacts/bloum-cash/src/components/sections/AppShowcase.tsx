@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
-import { Link } from "wouter";
-import { Apple, Play, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import appScreen from "@assets/20260608_153216_1780938183352.png";
+import StoreButtons from "@/components/StoreButtons";
 
 export default function AppShowcase() {
   return (
@@ -51,34 +51,7 @@ export default function AppShowcase() {
               <span className="text-blue-100 font-medium">4.8 / 5 — 2 000+ avis</span>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/telecharger">
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-3 bg-black text-white rounded-full px-7 py-4 shadow-2xl hover:bg-gray-900 transition-colors cursor-pointer"
-                >
-                  <Apple className="w-6 h-6" />
-                  <div>
-                    <div className="text-[10px] opacity-70">Télécharger sur</div>
-                    <div className="font-bold text-sm">App Store</div>
-                  </div>
-                </motion.a>
-              </Link>
-              <Link href="/telecharger">
-                <motion.a
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-3 bg-black text-white rounded-full px-7 py-4 shadow-2xl hover:bg-gray-900 transition-colors cursor-pointer"
-                >
-                  <Play className="w-6 h-6" />
-                  <div>
-                    <div className="text-[10px] opacity-70">DISPONIBLE SUR</div>
-                    <div className="font-bold text-sm">Google Play</div>
-                  </div>
-                </motion.a>
-              </Link>
-            </div>
+            <StoreButtons size="lg" />
           </motion.div>
 
           {/* Right: Phone screenshot */}

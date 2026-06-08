@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { Apple, Play } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
 import downloadIcon from "@assets/mine-mod-download-B1teb57W_(1)_1780938124567.png";
 import logoUrl from "@assets/LOGO_512x512.jpg_1780861295653.png";
+import StoreButtons from "@/components/StoreButtons";
 
 const blueFilter =
   "brightness(0) saturate(100%) invert(17%) sepia(100%) saturate(7484%) hue-rotate(213deg) brightness(97%) contrast(103%)";
@@ -41,32 +41,7 @@ export default function Telecharger() {
           >
             Gratuit, sans frais cachés. Disponible sur iOS et Android.
           </motion.p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-              className="flex items-center gap-3 bg-black text-white rounded-full px-8 py-4 shadow-xl hover:bg-gray-900 transition-colors"
-            >
-              <Apple className="w-7 h-7" />
-              <div className="text-left">
-                <div className="text-xs opacity-70">Télécharger sur</div>
-                <div className="text-base font-bold">l'App Store</div>
-              </div>
-            </motion.a>
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.97 }}
-              className="flex items-center gap-3 bg-black text-white rounded-full px-8 py-4 shadow-xl hover:bg-gray-900 transition-colors"
-            >
-              <Play className="w-7 h-7" />
-              <div className="text-left">
-                <div className="text-xs opacity-70">DISPONIBLE SUR</div>
-                <div className="text-base font-bold">Google Play</div>
-              </div>
-            </motion.a>
-          </div>
+          <StoreButtons size="lg" center />
         </div>
       </section>
 

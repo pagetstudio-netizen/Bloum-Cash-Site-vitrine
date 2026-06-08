@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import StoreButtons from "@/components/StoreButtons";
 
 export default function DownloadCTA() {
   return (
@@ -24,11 +24,8 @@ export default function DownloadCTA() {
               Rejoignez des milliers d'utilisateurs au Togo et profitez de transferts d'argent rapides, simples et sécurisés.
             </p>
             
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button size="lg" className="bg-white text-primary hover:bg-slate-50 rounded-full px-8 py-6 h-auto text-base font-bold shadow-md hover:scale-105 transition-all">
-                <Download className="mr-2 h-5 w-5" />
-                Télécharger l'application
-              </Button>
+            <StoreButtons size="lg" center className="mb-4" />
+            <div className="flex justify-center">
               <Button size="lg" variant="outline" className="bg-transparent border-2 border-white text-white hover:bg-white/10 rounded-full px-8 py-6 h-auto text-base font-bold transition-all">
                 Créer un compte
               </Button>
