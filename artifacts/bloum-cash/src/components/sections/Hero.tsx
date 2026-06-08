@@ -131,15 +131,25 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="lg:col-span-5 text-center lg:text-left flex flex-col justify-center"
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1, duration: 0.4 }}
-              className="inline-flex items-center gap-2 bg-blue-50 text-primary rounded-full px-4 py-2 text-sm font-semibold mb-6 w-fit mx-auto lg:mx-0"
-            >
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              Disponible sur iOS & Android
-            </motion.div>
+            <div className="flex flex-wrap items-center gap-3 justify-center lg:justify-start mb-6">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1, duration: 0.4 }}
+                className="inline-flex items-center gap-2 bg-blue-50 text-primary rounded-full px-4 py-2 text-sm font-semibold w-fit"
+              >
+                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                Disponible sur iOS & Android
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2, duration: 0.4 }}
+                className="inline-flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 rounded-full px-4 py-2 text-sm font-bold w-fit"
+              >
+                ✦ Frais : seulement 3,5%
+              </motion.div>
+            </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground leading-[1.1] tracking-tight mb-6">
               BLOUM CASH : Votre Argent, Partout au{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">
@@ -147,7 +157,8 @@ export default function Hero() {
               </span>
             </h1>
             <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Envoyez de l'argent instantanément entre TMoney et Moov Money, gérez vos transferts et profitez d'une expérience simple, rapide et sécurisée depuis votre téléphone.
+              Envoyez de l'argent instantanément entre TMoney et Moov Money. Simple, rapide, sécurisé — avec des frais transparents à{" "}
+              <span className="font-bold text-primary">seulement 3,5%</span>.
             </p>
             <StoreButtons size="lg" />
           </motion.div>

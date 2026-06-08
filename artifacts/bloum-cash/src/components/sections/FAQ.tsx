@@ -12,8 +12,8 @@ const faqs = [
     answer: "Connectez-vous, choisissez \"Envoyer\", entrez le montant et le numéro du destinataire, puis confirmez avec votre code PIN.",
   },
   {
-    question: "Quels sont les frais ?",
-    answer: "Les frais varient selon le montant transféré. Consultez notre grille tarifaire dans l'application.",
+    question: "Quels sont les frais de transfert ?",
+    answer: "Les frais de transfert sont de seulement 3,5% par transaction, quel que soit le montant. C'est simple, transparent et sans frais cachés. Par exemple, pour un envoi de 10 000 FCFA, les frais s'élèvent à 350 FCFA.",
   },
   {
     question: "Comment contacter le support ?",

@@ -22,8 +22,8 @@ const benefits = [
   },
   {
     icon: <CheckCircle2 className="w-6 h-6 text-white" />,
-    title: "Fiabilité",
-    description: "Transactions sécurisées et fiables",
+    title: "Seulement 3,5%",
+    description: "Un seul taux de frais, transparent, sans surprise",
     delay: 0.4,
   },
   {
