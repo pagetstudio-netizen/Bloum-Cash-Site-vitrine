@@ -119,7 +119,7 @@ export default function Confidentialite() {
                 },
                 {
                   subtitle: "Accès restreint et contrôle interne",
-                  text: "L'accès à vos données est strictement limité aux membres de l'équipe d'ashtech Sarl qui en ont besoin pour accomplir leurs missions (support technique, équipes de sécurité). Chaque accès est tracé et auditable. Nos employés sont formés à la protection des données et soumis à des engagements de confidentialité.",
+                  text: "L'accès à vos données est strictement limité aux membres de l'équipe de Bloum Cash SAS qui en ont besoin pour accomplir leurs missions (support technique, équipes de sécurité). Chaque accès est tracé et auditable. Nos employés sont formés à la protection des données et soumis à des engagements de confidentialité.",
                 },
                 {
                   subtitle: "Authentification renforcée",

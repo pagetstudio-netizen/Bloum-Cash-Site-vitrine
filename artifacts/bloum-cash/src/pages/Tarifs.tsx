@@ -1,55 +1,5 @@
 import { motion } from "framer-motion";
-import { Check } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
-
-const tiers = [
-  {
-    name: "Basique",
-    price: "Gratuit",
-    desc: "Pour commencer à transférer facilement",
-    features: [
-      "Transferts jusqu'à 50 000 FCFA/jour",
-      "Frais de 3,5% par transfert",
-      "1 compte mobile lié",
-      "Historique 30 jours",
-      "Support par email",
-    ],
-    cta: "Commencer gratuitement",
-    highlight: false,
-  },
-  {
-    name: "Standard",
-    price: "500 FCFA",
-    period: "/mois",
-    desc: "Pour un usage régulier et confortable",
-    features: [
-      "Transferts jusqu'à 200 000 FCFA/jour",
-      "Frais de 3,5% par transfert",
-      "2 comptes mobiles liés",
-      "Historique illimité",
-      "Support prioritaire",
-      "Notifications SMS",
-    ],
-    cta: "Choisir Standard",
-    highlight: true,
-  },
-  {
-    name: "Premium",
-    price: "1 500 FCFA",
-    period: "/mois",
-    desc: "Pour les professionnels et les grandes familles",
-    features: [
-      "Transferts illimités",
-      "Frais de 3,5% par transfert",
-      "5 comptes mobiles liés",
-      "Historique illimité",
-      "Support VIP 24/7",
-      "Transferts planifiés",
-    ],
-    cta: "Choisir Premium",
-    highlight: false,
-  },
-];
 
 const fees = [
   { range: "0 – 5 000 FCFA", fee: "3,5%", example: "≈ 175 FCFA" },
@@ -85,88 +35,24 @@ export default function Tarifs() {
       </section>
 
       {/* Fee highlight banner */}
-      <section className="py-10 bg-primary">
+      <section className="py-16 bg-primary">
         <div className="container mx-auto px-4 md:px-6">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left"
+            className="flex flex-col md:flex-row items-center justify-center gap-8 text-center md:text-left"
           >
             <div>
               <p className="text-blue-200 text-sm font-semibold uppercase tracking-widest mb-1">Frais de transfert</p>
-              <p className="text-white text-5xl font-extrabold">3,5%</p>
+              <p className="text-white text-7xl font-extrabold">3,5%</p>
             </div>
-            <div className="w-px h-16 bg-white/20 hidden md:block" />
+            <div className="w-px h-20 bg-white/20 hidden md:block" />
             <div className="max-w-sm">
-              <p className="text-white font-semibold text-lg mb-1">Simple, clair, sans surprise</p>
-              <p className="text-blue-200">Un seul taux appliqué sur chaque transfert. Aucun frais caché, aucun abonnement obligatoire.</p>
+              <p className="text-white font-semibold text-xl mb-2">Simple, clair, sans surprise</p>
+              <p className="text-blue-200 text-base">Un seul taux appliqué sur chaque transfert. Aucun frais caché, aucun abonnement.</p>
             </div>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Pricing tiers */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {tiers.map((tier, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className={`rounded-3xl p-8 border-2 flex flex-col ${
-                  tier.highlight
-                    ? "border-primary bg-primary text-white shadow-2xl scale-105"
-                    : "border-slate-200 bg-white"
-                }`}
-              >
-                {tier.highlight && (
-                  <div className="text-xs font-bold bg-white/20 text-white px-3 py-1 rounded-full w-fit mb-4">
-                    Le plus populaire
-                  </div>
-                )}
-                <h3 className={`text-xl font-bold mb-2 ${tier.highlight ? "text-white" : "text-foreground"}`}>
-                  {tier.name}
-                </h3>
-                <p className={`text-sm mb-6 ${tier.highlight ? "text-blue-100" : "text-muted-foreground"}`}>
-                  {tier.desc}
-                </p>
-                <div className="mb-8">
-                  <span className={`text-4xl font-extrabold ${tier.highlight ? "text-white" : "text-foreground"}`}>
-                    {tier.price}
-                  </span>
-                  {tier.period && (
-                    <span className={`text-sm ${tier.highlight ? "text-blue-100" : "text-muted-foreground"}`}>
-                      {tier.period}
-                    </span>
-                  )}
-                </div>
-                <ul className="space-y-3 flex-1 mb-8">
-                  {tier.features.map((f, j) => (
-                    <li key={j} className="flex items-center gap-3">
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${tier.highlight ? "bg-white/20" : "bg-blue-50"}`}>
-                        <Check className={`w-3 h-3 ${tier.highlight ? "text-white" : "text-primary"}`} />
-                      </div>
-                      <span className={`text-sm ${tier.highlight ? "text-blue-50" : "text-foreground"}`}>{f}</span>
-                    </li>
-                  ))}
-                </ul>
-                <a
-                  href="/telecharger"
-                  className={`block text-center font-bold py-3 rounded-full transition-colors ${
-                    tier.highlight
-                      ? "bg-white text-primary hover:bg-blue-50"
-                      : "bg-primary text-white hover:bg-blue-700"
-                  }`}
-                >
-                  {tier.cta}
-                </a>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
