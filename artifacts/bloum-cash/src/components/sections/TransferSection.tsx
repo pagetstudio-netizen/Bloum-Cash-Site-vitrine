@@ -32,7 +32,7 @@ const stats = [
 export default function TransferSection() {
   return (
     <section className="py-24 bg-white overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6 xl:px-8">
 
         {/* Header */}
         <div className="text-center mb-16">
@@ -74,7 +74,7 @@ export default function TransferSection() {
           transition={{ duration: 0.6 }}
           className="flex justify-center mb-16"
         >
-          <div className="relative max-w-2xl w-full">
+          <div className="relative max-w-2xl xl:max-w-3xl w-full">
             <div className="absolute inset-0 bg-blue-100/40 rounded-3xl blur-2xl scale-95" />
             <motion.img
               animate={{ y: [0, -8, 0] }}
@@ -87,7 +87,7 @@ export default function TransferSection() {
         </motion.div>
 
         {/* Stats bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 xl:gap-8 max-w-4xl xl:max-w-5xl mx-auto">
           {stats.map((s, i) => (
             <motion.div
               key={i}

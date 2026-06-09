@@ -6,8 +6,8 @@ import lockIcon from "@assets/mine-mod-change-pwd-D4tL_Aft_1780938124611.png";
 export default function Security() {
   return (
     <section id="securite" className="py-24 bg-blue-50/50 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div className="container mx-auto px-4 md:px-6 xl:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20 items-center">
 
           {/* Left Column: Text */}
           <motion.div
@@ -16,7 +16,7 @@ export default function Security() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-blue-800 flex items-center justify-center mb-8 shadow-lg">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-blue-800 flex items-center justify-center mb-8 shadow-lg shrink-0">
               <img
                 src={lockIcon}
                 alt="Sécurité"
@@ -24,7 +24,10 @@ export default function Security() {
                 style={{ filter: "brightness(0) invert(1)" }}
               />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+            <h2
+              className="font-bold text-foreground mb-6"
+              style={{ fontSize: "clamp(1.75rem, 2.5vw, 2.25rem)" }}
+            >
               Sécurité Certifiée
             </h2>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
@@ -67,7 +70,7 @@ export default function Security() {
             <motion.div
               animate={{ y: [0, -12, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" as const }}
-              className="relative z-10 max-w-sm w-full"
+              className="relative z-10 max-w-sm xl:max-w-md w-full"
             >
               <img
                 src={securityImage}

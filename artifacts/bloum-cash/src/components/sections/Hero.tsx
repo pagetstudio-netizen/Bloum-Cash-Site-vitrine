@@ -59,7 +59,6 @@ function AnimatedDashedLines() {
           />
         ))}
 
-        {/* Moving dots along paths */}
         {[0, 2, 4].map((pathIdx) => (
           <motion.circle
             key={`dot-${pathIdx}`}
@@ -88,18 +87,17 @@ function AnimatedDashedLines() {
 
 export default function Hero() {
   return (
-    <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-white">
-      {/* Animated dashed lines background */}
+    <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 xl:pt-48 xl:pb-32 overflow-hidden bg-white">
       <AnimatedDashedLines />
 
       {/* Soft blobs */}
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-blue-100/50 blur-[100px] pointer-events-none z-0" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-blue-50/60 blur-[80px] pointer-events-none z-0" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div className="container mx-auto px-4 md:px-6 xl:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-          {/* Left Column: Floating banners */}
+          {/* Left Column: Floating banners — desktop only */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
@@ -112,14 +110,28 @@ export default function Hero() {
                 transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" as const }}
                 className="rounded-2xl overflow-hidden shadow-xl border border-blue-100"
               >
-                <img src={banner1} alt="Bloum Cash - Transfert TMoney Moov Money au Togo" loading="lazy" width="400" height="250" className="w-full object-cover" />
+                <img
+                  src={banner1}
+                  alt="Bloum Cash - Transfert TMoney Moov Money au Togo"
+                  loading="lazy"
+                  width="400"
+                  height="250"
+                  className="w-full object-cover"
+                />
               </motion.div>
               <motion.div
                 animate={{ y: [0, 8, 0] }}
                 transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" as const, delay: 0.5 }}
                 className="rounded-2xl overflow-hidden shadow-xl border border-blue-100"
               >
-                <img src={banner2} alt="Bloum Cash - Envoyer argent TMoney Flooz Togo" loading="lazy" width="400" height="250" className="w-full object-cover" />
+                <img
+                  src={banner2}
+                  alt="Bloum Cash - Envoyer argent TMoney Flooz Togo"
+                  loading="lazy"
+                  width="400"
+                  height="250"
+                  className="w-full object-cover"
+                />
               </motion.div>
             </div>
           </motion.div>
@@ -139,28 +151,37 @@ export default function Hero() {
                 className="inline-flex items-center gap-2 bg-blue-50 text-primary rounded-full px-4 py-2 text-sm font-semibold w-fit"
               >
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                Disponible sur iOS & Android
+                Disponible sur iOS &amp; Android
               </motion.div>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground leading-[1.1] tracking-tight mb-6">
+
+            <h1
+              className="font-extrabold text-foreground leading-[1.1] tracking-tight mb-6"
+              style={{ fontSize: "clamp(2rem, 3.5vw, 3.75rem)" }}
+            >
               BLOUM CASH : Votre Argent, Partout au{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-blue-600">
                 Togo
               </span>
             </h1>
-            <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+
+            <p
+              className="text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed"
+              style={{ fontSize: "clamp(1rem, 1.2vw, 1.125rem)" }}
+            >
               Envoyez de l'argent instantanément entre TMoney et Moov Money. Simple, rapide, sécurisé — avec des frais transparents à{" "}
               <span className="font-bold text-primary">seulement 5%</span>.
             </p>
+
             <StoreButtons size="lg" />
           </motion.div>
 
-          {/* Right Column: Hero Image */}
+          {/* Right Column: Hero Image — desktop (lg+) only */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="hidden md:block lg:col-span-4"
+            className="hidden lg:block lg:col-span-4"
           >
             <div className="relative rounded-[2rem] overflow-hidden shadow-2xl">
               <div className="absolute inset-0 bg-primary/10 mix-blend-multiply z-10" />

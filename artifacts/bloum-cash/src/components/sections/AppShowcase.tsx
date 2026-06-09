@@ -10,8 +10,8 @@ export default function AppShowcase() {
       <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[150%] rounded-full bg-blue-400/10 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[-20%] left-[-10%] w-[40%] h-[100%] rounded-full bg-white/5 blur-[80px] pointer-events-none" />
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div className="container mx-auto px-4 md:px-6 xl:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20 items-center">
 
           {/* Left: Text */}
           <motion.div
@@ -30,14 +30,18 @@ export default function AppShowcase() {
               Application disponible maintenant
             </motion.div>
 
-            <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-6">
+            <h2
+              className="font-extrabold text-white leading-tight mb-6"
+              style={{ fontSize: "clamp(1.875rem, 3vw, 3rem)" }}
+            >
               Toute la puissance de{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-orange-300">
                 Bloum Cash
               </span>{" "}
               dans votre poche
             </h2>
-            <p className="text-blue-100 text-lg mb-8 leading-relaxed">
+
+            <p className="text-blue-100 text-lg mb-8 leading-relaxed max-w-lg">
               Une interface pensée pour être simple, rapide et agréable. Transférez de l'argent en quelques secondes depuis n'importe où au Togo.
             </p>
 
@@ -75,7 +79,7 @@ export default function AppShowcase() {
                 loading="lazy"
                 width="320"
                 height="640"
-                className="relative z-10 w-72 md:w-80 object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)] rounded-[2.5rem]"
+                className="relative z-10 w-72 md:w-80 xl:w-96 2xl:w-[26rem] object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)] rounded-[2.5rem]"
               />
             </motion.div>
           </motion.div>

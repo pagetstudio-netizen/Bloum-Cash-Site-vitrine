@@ -42,13 +42,14 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#1a1a5e] text-white pt-20 pb-10">
-      <div className="container mx-auto px-4 md:px-6">
+      <div className="container mx-auto px-4 md:px-6 xl:px-8">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 mb-16">
+          {/* Brand column */}
           <div className="lg:col-span-2">
             <Link href="/">
               <div className="flex items-center gap-3 mb-6 cursor-pointer">
-                <img src={logoUrl} alt="Bloum Cash Logo" className="w-12 h-12 rounded-xl" />
+                <img src={logoUrl} alt="Bloum Cash Logo" className="w-12 h-12 rounded-xl shrink-0" />
                 <span className="text-2xl font-bold tracking-tight text-white">Bloum Cash</span>
               </div>
             </Link>
@@ -61,6 +62,7 @@ export default function Footer() {
             </p>
           </div>
 
+          {/* Link columns */}
           {Object.entries(footerLinks).map(([section, links]) => (
             <div key={section}>
               <h4 className="font-bold text-sm uppercase tracking-widest mb-6 text-white/60">{section}</h4>
@@ -106,7 +108,7 @@ export default function Footer() {
                   target={href !== "#" ? "_blank" : undefined}
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.15, backgroundColor: "rgba(59,130,246,1)" }}
-                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-blue-200 hover:text-white transition-colors"
+                  className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-blue-200 hover:text-white transition-colors"
                 >
                   <Icon size={17} />
                 </motion.a>
