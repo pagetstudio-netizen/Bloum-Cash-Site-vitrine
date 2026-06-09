@@ -1,6 +1,8 @@
 import express, { type Express } from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import router from "./routes";
 import { logger } from "./lib/logger";
 import { initTelegramBot } from "./services/telegram";
@@ -31,6 +33,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
+
+if (process.env.NODE_ENV === "production") {
+  const __dirname_prod = path.dirname(fileURLToPath(import.meta.url));
+  const staticPath =
+    process.env.STATIC_PATH ||
+    path.resolve(__dirname_prod, "../../bloum-cash/dist/public");
+
+  app.use(express.static(staticPath));
+
+  app.use((_req, res) => {
+    res.sendFile(path.join(staticPath, "index.html"));
+  });
+}
 
 initTelegramBot();
 

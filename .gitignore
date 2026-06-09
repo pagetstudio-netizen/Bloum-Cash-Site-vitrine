@@ -1,9 +1,14 @@
 # See https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
-# compiled output
-dist
-tmp
+# compiled output — lib packages only
+lib/*/dist
+lib/*/.tsbuildinfo
+*.tsbuildinfo
 out-tsc
+
+# Plesk restart file (auto-managed by Plesk)
+tmp/*
+!tmp/.gitkeep
 *.tsbuildinfo
 .expo
 .expo-shared
