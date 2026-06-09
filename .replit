@@ -65,6 +65,7 @@ externalPort = 3000
 [userenv.shared]
 JWT_SECRET = "1973dfae5ec8a33eb55125c1d89c4fef8fd7ff5559eb60983dd8c312bbc6c034"
 API_PORT = "3001"
+TELEGRAM_BOT_TOKEN = "8971087865:AAHuA3j7fwb9EUCFOAmP4myw9NZmhH9UToQ"
 
 [nix]
 channel = "stable-25_05"
