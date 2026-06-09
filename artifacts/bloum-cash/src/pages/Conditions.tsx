@@ -26,7 +26,7 @@ export default function Conditions() {
             <span className="text-primary">d'Utilisation</span>
           </motion.h1>
           <motion.p {...fadeUp(0.1)} className="text-muted-foreground max-w-xl mx-auto">
-            Dernière mise à jour : Juin 2026 · Bloum Cash SAS
+            Dernière mise à jour : Juin 2026 · Ashtech Sarl
           </motion.p>
         </div>
       </section>
@@ -79,9 +79,9 @@ export default function Conditions() {
                 <Info className="w-5 h-5 text-white" />
               </div>
               <div>
-                <p className="font-bold text-foreground mb-2">À propos de Bloum Cash SAS</p>
+                <p className="font-bold text-foreground mb-2">À propos de Ashtech Sarl</p>
                 <p className="text-muted-foreground leading-relaxed text-sm">
-                  <strong>Bloum Cash SAS</strong> est une société enregistrée légalement à Lomé, Togo, spécialisée dans les infrastructures de paiement numérique et les solutions fintech destinées à l'Afrique. Les services proposés peuvent inclure : collecte de paiements Mobile Money, envoi de paiements (Pay-out), outils marchands et solutions fintech. Toutes les opérations sont soumises aux réglementations locales applicables et aux politiques <strong>AML/CFT</strong> (lutte contre le blanchiment d'argent et le financement du terrorisme).
+                  <strong>Ashtech Sarl</strong> est une société enregistrée légalement à Lomé, Togo, spécialisée dans les infrastructures de paiement numérique et les solutions fintech destinées à l'Afrique. Les services proposés peuvent inclure : collecte de paiements Mobile Money, envoi de paiements (Pay-out), outils marchands et solutions fintech. Toutes les opérations sont soumises aux réglementations locales applicables et aux politiques <strong>AML/CFT</strong> (lutte contre le blanchiment d'argent et le financement du terrorisme).
                 </p>
               </div>
             </div>
@@ -92,7 +92,7 @@ export default function Conditions() {
             {
               num: "1",
               title: "Acceptation des présentes conditions générales d'utilisation",
-              content: `En accédant à l'application mobile Bloum Cash ou à tout autre service proposé sous la marque Bloum Cash (ci-après « la Plateforme »), vous reconnaissez avoir lu, compris et accepté sans réserve les présentes Conditions Générales d'Utilisation (CGU). Si vous n'acceptez pas ces conditions dans leur intégralité, vous devez cesser immédiatement d'utiliser la Plateforme. L'acceptation des CGU vaut consentement éclairé et constitue un engagement contractuel entre vous et Bloum Cash SAS.`,
+              content: `En accédant à l'application mobile Bloum Cash ou à tout autre service proposé sous la marque Bloum Cash (ci-après « la Plateforme »), vous reconnaissez avoir lu, compris et accepté sans réserve les présentes Conditions Générales d'Utilisation (CGU). Si vous n'acceptez pas ces conditions dans leur intégralité, vous devez cesser immédiatement d'utiliser la Plateforme. L'acceptation des CGU vaut consentement éclairé et constitue un engagement contractuel entre vous et Ashtech Sarl.`,
             },
             {
               num: "2",
@@ -137,7 +137,7 @@ export default function Conditions() {
             {
               num: "10",
               title: "Propriété intellectuelle et usage de la marque Bloum Cash",
-              content: `La marque « Bloum Cash », le logo, l'interface graphique, le code source de l'application et tous les contenus publiés sur la Plateforme sont la propriété exclusive de Bloum Cash SAS et sont protégés par les lois sur la propriété intellectuelle. Toute reproduction, copie, distribution ou exploitation commerciale sans autorisation écrite préalable est strictement interdite et pourra donner lieu à des poursuites judiciaires.`,
+              content: `La marque « Bloum Cash », le logo, l'interface graphique, le code source de l'application et tous les contenus publiés sur la Plateforme sont la propriété exclusive de Ashtech Sarl et sont protégés par les lois sur la propriété intellectuelle. Toute reproduction, copie, distribution ou exploitation commerciale sans autorisation écrite préalable est strictement interdite et pourra donner lieu à des poursuites judiciaires.`,
             },
             {
               num: "11",
@@ -147,7 +147,7 @@ export default function Conditions() {
             {
               num: "12",
               title: "Droit applicable, juridiction compétente et règlement des litiges",
-              content: `Les présentes CGU sont régies par les lois en vigueur au Togo, pays de siège social de Bloum Cash SAS. En cas de litige relatif à l'interprétation ou à l'exécution des présentes conditions, les parties s'engagent à rechercher une solution amiable dans un délai de 30 jours. À défaut, le litige sera soumis aux tribunaux compétents de Lomé, Togo.`,
+              content: `Les présentes CGU sont régies par les lois en vigueur au Togo, pays de siège social de Ashtech Sarl. En cas de litige relatif à l'interprétation ou à l'exécution des présentes conditions, les parties s'engagent à rechercher une solution amiable dans un délai de 30 jours. À défaut, le litige sera soumis aux tribunaux compétents de Lomé, Togo.`,
             },
           ].map((s, i) => (
             <motion.div key={i} {...fadeUp(i * 0.04)} className="border-b border-slate-100 pb-8 last:border-0">

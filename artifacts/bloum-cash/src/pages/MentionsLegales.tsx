@@ -9,7 +9,7 @@ export default function MentionsLegales() {
     {
       title: "Éditeur du site",
       content: [
-        "Dénomination sociale : Bloum Cash SAS",
+        "Dénomination sociale : Ashtech Sarl",
         "Siège social : Lomé, Togo",
         `Email : ${config.contact_email}`,
         "Directeur de la publication : Équipe Bloum Cash",
