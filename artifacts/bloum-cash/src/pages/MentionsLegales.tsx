@@ -11,7 +11,7 @@ export default function MentionsLegales() {
       title: "Éditeur du site",
       content: [
         "Dénomination sociale : Ashtech Sarl",
-        "Siège social : Lomé, Togo",
+        "Siège social : Cameroun",
         `Email : ${config.contact_email}`,
         "Directeur de la publication : Équipe Bloum Cash",
       ],
@@ -41,8 +41,8 @@ export default function MentionsLegales() {
     {
       title: "Droit applicable",
       content: [
-        "Les présentes mentions légales sont régies par le droit togolais.",
-        "En cas de litige, les tribunaux compétents sont ceux de Lomé, Togo.",
+        "Les présentes mentions légales sont régies par le droit camerounais.",
+        "En cas de litige, les tribunaux compétents sont ceux du Cameroun.",
       ],
     },
     {
@@ -56,7 +56,7 @@ export default function MentionsLegales() {
   return (
     <PageLayout>
       <Seo
-        title="Mentions légales Bloum Cash | Ashtech Sarl — Togo"
+        title="Mentions légales Bloum Cash | Ashtech Sarl — Cameroun"
         description="Mentions légales de Bloum Cash, édité par Ashtech Sarl. Informations légales sur l'application de transfert d'argent au Togo."
         canonical="https://bloumcash.com/mentions-legales"
       />

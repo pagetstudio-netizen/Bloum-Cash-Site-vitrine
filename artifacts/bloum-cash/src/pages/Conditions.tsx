@@ -87,7 +87,7 @@ export default function Conditions() {
               <div>
                 <p className="font-bold text-foreground mb-2">À propos de Ashtech Sarl</p>
                 <p className="text-muted-foreground leading-relaxed text-sm">
-                  <strong>Ashtech Sarl</strong> est une société enregistrée légalement à Lomé, Togo, spécialisée dans les infrastructures de paiement numérique et les solutions fintech destinées à l'Afrique. Les services proposés peuvent inclure : collecte de paiements Mobile Money, envoi de paiements (Pay-out), outils marchands et solutions fintech. Toutes les opérations sont soumises aux réglementations locales applicables et aux politiques <strong>AML/CFT</strong> (lutte contre le blanchiment d'argent et le financement du terrorisme).
+                  <strong>Ashtech Sarl</strong> est une société enregistrée légalement au Cameroun, spécialisée dans les infrastructures de paiement numérique et les solutions fintech destinées à l'Afrique. Les services proposés peuvent inclure : collecte de paiements Mobile Money, envoi de paiements (Pay-out), outils marchands et solutions fintech. Toutes les opérations sont soumises aux réglementations locales applicables et aux politiques <strong>AML/CFT</strong> (lutte contre le blanchiment d'argent et le financement du terrorisme).
                 </p>
               </div>
             </div>
@@ -153,7 +153,7 @@ export default function Conditions() {
             {
               num: "12",
               title: "Droit applicable, juridiction compétente et règlement des litiges",
-              content: `Les présentes CGU sont régies par les lois en vigueur au Togo, pays de siège social de Ashtech Sarl. En cas de litige relatif à l'interprétation ou à l'exécution des présentes conditions, les parties s'engagent à rechercher une solution amiable dans un délai de 30 jours. À défaut, le litige sera soumis aux tribunaux compétents de Lomé, Togo.`,
+              content: `Les présentes CGU sont régies par les lois en vigueur au Cameroun, pays de siège social de Ashtech Sarl. En cas de litige relatif à l'interprétation ou à l'exécution des présentes conditions, les parties s'engagent à rechercher une solution amiable dans un délai de 30 jours. À défaut, le litige sera soumis aux tribunaux compétents du Cameroun.`,
             },
           ].map((s, i) => (
             <motion.div key={i} {...fadeUp(i * 0.04)} className="border-b border-slate-100 pb-8 last:border-0">
