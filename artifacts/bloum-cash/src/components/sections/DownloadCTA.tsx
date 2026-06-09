@@ -23,7 +23,7 @@ export default function DownloadCTA() {
               Commencez dès aujourd'hui avec Bloum Cash
             </h2>
             <p className="text-blue-100 text-sm md:text-base mb-7 leading-relaxed">
-              Rejoignez des milliers d'utilisateurs au Togo — transferts rapides, sécurisés, à seulement 3,5%.
+              Rejoignez des milliers d'utilisateurs au Togo — transferts rapides, sécurisés, à seulement 5%.
             </p>
 
             <StoreButtons size="md" center className="mb-4" />

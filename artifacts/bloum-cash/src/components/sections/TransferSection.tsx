@@ -24,7 +24,7 @@ function CountUp({ to, suffix = "", duration = 1.8 }: { to: number; suffix?: str
 
 const stats = [
   { display: "< 5 sec", label: "Temps de transfert", isStatic: true },
-  { to: 3.5, suffix: "%", label: "Frais de transfert", isStatic: false },
+  { to: 5, suffix: "%", label: "Frais de transfert", isStatic: false },
   { display: "24/7", label: "Disponibilité", isStatic: true },
   { to: 100, suffix: "%", label: "Sécurisé", isStatic: false },
 ];
@@ -62,7 +62,7 @@ export default function TransferSection() {
             className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
             Bloum Cash est le pont sécurisé entre les deux principaux réseaux de mobile money au Togo. Transférez sans vous déplacer, instantanément — avec seulement{" "}
-            <strong className="text-primary">3,5% de frais</strong>.
+            <strong className="text-primary">5% de frais</strong>.
           </motion.p>
         </div>
 

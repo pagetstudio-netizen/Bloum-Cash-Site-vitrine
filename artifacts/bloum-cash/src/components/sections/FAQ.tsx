@@ -13,7 +13,7 @@ const faqs = [
   },
   {
     question: "Quels sont les frais de transfert ?",
-    answer: "Les frais de transfert sont de seulement 3,5% par transaction, quel que soit le montant. C'est simple, transparent et sans frais cachés. Par exemple, pour un envoi de 10 000 FCFA, les frais s'élèvent à 350 FCFA.",
+    answer: "Les frais de transfert sont de seulement 5% par transaction, quel que soit le montant. C'est simple, transparent et sans frais cachés. Par exemple, pour un envoi de 10 000 FCFA, les frais s'élèvent à 500 FCFA.",
   },
   {
     question: "Comment contacter le support ?",

@@ -141,14 +141,6 @@ export default function Hero() {
                 <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                 Disponible sur iOS & Android
               </motion.div>
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2, duration: 0.4 }}
-                className="inline-flex items-center gap-2 bg-green-50 text-green-700 border border-green-200 rounded-full px-4 py-2 text-sm font-bold w-fit"
-              >
-                ✦ Frais : seulement 3,5%
-              </motion.div>
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground leading-[1.1] tracking-tight mb-6">
               BLOUM CASH : Votre Argent, Partout au{" "}
@@ -158,7 +150,7 @@ export default function Hero() {
             </h1>
             <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
               Envoyez de l'argent instantanément entre TMoney et Moov Money. Simple, rapide, sécurisé — avec des frais transparents à{" "}
-              <span className="font-bold text-primary">seulement 3,5%</span>.
+              <span className="font-bold text-primary">seulement 5%</span>.
             </p>
             <StoreButtons size="lg" />
           </motion.div>

@@ -3,11 +3,11 @@ import { Seo } from "@/components/Seo";
 import PageLayout from "@/components/PageLayout";
 
 const fees = [
-  { range: "0 – 5 000 FCFA", fee: "3,5%", example: "≈ 175 FCFA" },
-  { range: "5 001 – 20 000 FCFA", fee: "3,5%", example: "≈ 350–700 FCFA" },
-  { range: "20 001 – 50 000 FCFA", fee: "3,5%", example: "≈ 700–1 750 FCFA" },
-  { range: "50 001 – 200 000 FCFA", fee: "3,5%", example: "≈ 1 750–7 000 FCFA" },
-  { range: "> 200 000 FCFA", fee: "3,5%", example: "Contactez-nous" },
+  { range: "0 – 5 000 FCFA", fee: "5%", example: "≈ 250 FCFA" },
+  { range: "5 001 – 20 000 FCFA", fee: "5%", example: "≈ 250–1 000 FCFA" },
+  { range: "20 001 – 50 000 FCFA", fee: "5%", example: "≈ 1 000–2 500 FCFA" },
+  { range: "50 001 – 200 000 FCFA", fee: "5%", example: "≈ 2 500–10 000 FCFA" },
+  { range: "> 200 000 FCFA", fee: "5%", example: "Contactez-nous" },
 ];
 
 export default function Tarifs() {
@@ -15,7 +15,7 @@ export default function Tarifs() {
     <PageLayout>
       <Seo
         title="Tarifs Bloum Cash | Frais de transfert TMoney et Moov Money au Togo"
-        description="Tarifs transparents Bloum Cash : seulement 3,5% de frais sur vos transferts entre TMoney et Moov Money. Pas de frais cachés."
+        description="Tarifs transparents Bloum Cash : seulement 5% de frais sur vos transferts entre TMoney et Moov Money. Pas de frais cachés."
         canonical="https://bloumcash.com/tarifs"
       />
       {/* Hero */}
@@ -35,7 +35,7 @@ export default function Tarifs() {
             className="text-lg text-muted-foreground max-w-2xl mx-auto"
           >
             Des prix transparents, sans surprise. Un seul frais simple :{" "}
-            <strong className="text-primary">3,5% par transfert</strong>.
+            <strong className="text-primary">5% par transfert</strong>.
           </motion.p>
         </div>
       </section>
@@ -51,7 +51,7 @@ export default function Tarifs() {
           >
             <div>
               <p className="text-blue-200 text-sm font-semibold uppercase tracking-widest mb-1">Frais de transfert</p>
-              <p className="text-white text-7xl font-extrabold">3,5%</p>
+              <p className="text-white text-7xl font-extrabold">5%</p>
             </div>
             <div className="w-px h-20 bg-white/20 hidden md:block" />
             <div className="max-w-sm">
@@ -71,7 +71,7 @@ export default function Tarifs() {
             viewport={{ once: true }}
             className="text-2xl font-bold text-foreground text-center mb-3"
           >
-            Exemples de frais (3,5%)
+            Exemples de frais (5%)
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
@@ -80,7 +80,7 @@ export default function Tarifs() {
             transition={{ delay: 0.1 }}
             className="text-muted-foreground text-center mb-10"
           >
-            Le taux de 3,5% s'applique uniformément à tous les montants.
+            Le taux de 5% s'applique uniformément à tous les montants.
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }}

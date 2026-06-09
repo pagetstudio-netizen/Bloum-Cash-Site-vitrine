@@ -56,7 +56,7 @@ export default function Footer() {
               Votre Argent, Partout au Togo. La solution FINTECH de transfert mobile entre TMoney et Moov Money — sécurisée, rapide et transparente.
             </p>
             <p className="text-blue-200/50 text-xs leading-relaxed max-w-sm">
-              Frais de transfert : <strong className="text-blue-200/80">3,5%</strong> — Sans frais cachés.
+              Frais de transfert : <strong className="text-blue-200/80">5%</strong> — Sans frais cachés.
               Vérifiez toujours le numéro bénéficiaire avant de confirmer.
             </p>
           </div>
