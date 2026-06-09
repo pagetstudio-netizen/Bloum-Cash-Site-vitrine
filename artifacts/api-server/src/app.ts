@@ -20,6 +20,11 @@ import { strictRateLimit, configRateLimit } from "./middleware/security";
 
 const app: Express = express();
 
+// ─── 0. Faire confiance au proxy Plesk/Passenger/Nginx ────────────────────────
+// Sans ceci, express-rate-limit lance ERR_ERL_UNEXPECTED_X_FORWARDED_FOR
+// et toutes les requêtes retournent 500 sur Plesk/Replit.
+app.set("trust proxy", 1);
+
 // ─── 1. Supprimer les en-têtes qui révèlent la stack ─────────────────────────
 app.use(removeStackHeaders);
 

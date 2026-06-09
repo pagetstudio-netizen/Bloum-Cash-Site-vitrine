@@ -109993,6 +109993,7 @@ function rejectLargePayloads(req, res, next) {
 
 // src/app.ts
 var app = (0, import_express6.default)();
+app.set("trust proxy", 1);
 app.use(removeStackHeaders);
 app.use(securityHeaders);
 var extraOrigins = (process.env.ALLOWED_ORIGINS ?? "").split(",").map((s) => s.trim()).filter(Boolean);
