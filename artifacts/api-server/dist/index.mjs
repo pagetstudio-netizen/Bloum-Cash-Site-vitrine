@@ -36882,11 +36882,11 @@ var require_connection = __commonJS({
           }
         });
       }
-      connect(port2, host) {
+      connect(port, host) {
         const self2 = this;
         this._connecting = true;
         this.stream.setNoDelay(true);
-        this.stream.connect(port2, host);
+        this.stream.connect(port, host);
         this.stream.once("connect", function() {
           if (self2._keepAlive) {
             self2.stream.setKeepAlive(true, self2._keepAliveInitialDelayMillis);
@@ -81097,10 +81097,10 @@ var require_forever_agent = __commonJS({
     var net = __require("net");
     var tls = __require("tls");
     var AgentSSL = __require("https").Agent;
-    function getConnectionName(host, port2) {
+    function getConnectionName(host, port) {
       var name = "";
       if (typeof host === "string") {
-        name = host + ":" + port2;
+        name = host + ":" + port;
       } else {
         name = host.host + ":" + host.port + ":" + (host.localAddress ? host.localAddress + ":" : ":");
       }
@@ -81114,8 +81114,8 @@ var require_forever_agent = __commonJS({
       self2.freeSockets = {};
       self2.maxSockets = self2.options.maxSockets || Agent.defaultMaxSockets;
       self2.minSockets = self2.options.minSockets || ForeverAgent.defaultMinSockets;
-      self2.on("free", function(socket, host, port2) {
-        var name = getConnectionName(host, port2);
+      self2.on("free", function(socket, host, port) {
+        var name = getConnectionName(host, port);
         if (self2.requests[name] && self2.requests[name].length) {
           self2.requests[name].shift().onSocket(socket);
         } else if (self2.sockets[name].length < self2.minSockets) {
@@ -81135,11 +81135,11 @@ var require_forever_agent = __commonJS({
     ForeverAgent.defaultMinSockets = 5;
     ForeverAgent.prototype.createConnection = net.createConnection;
     ForeverAgent.prototype.addRequestNoreuse = Agent.prototype.addRequest;
-    ForeverAgent.prototype.addRequest = function(req, host, port2) {
-      var name = getConnectionName(host, port2);
+    ForeverAgent.prototype.addRequest = function(req, host, port) {
+      var name = getConnectionName(host, port);
       if (typeof host !== "string") {
         var options = host;
-        port2 = options.port;
+        port = options.port;
         host = options.host;
       }
       if (this.freeSockets[name] && this.freeSockets[name].length > 0 && !req.useChunkedEncodingByDefault) {
@@ -81149,10 +81149,10 @@ var require_forever_agent = __commonJS({
         req._reusedSocket = true;
         req.onSocket(idleSocket);
       } else {
-        this.addRequestNoreuse(req, host, port2);
+        this.addRequestNoreuse(req, host, port);
       }
     };
-    ForeverAgent.prototype.removeSocket = function(s, name, host, port2) {
+    ForeverAgent.prototype.removeSocket = function(s, name, host, port) {
       if (this.sockets[name]) {
         var index = this.sockets[name].indexOf(s);
         if (index !== -1) {
@@ -81172,7 +81172,7 @@ var require_forever_agent = __commonJS({
         }
       }
       if (this.requests[name] && this.requests[name].length) {
-        this.createSocket(name, host, port2).emit("free");
+        this.createSocket(name, host, port).emit("free");
       }
     };
     function ForeverAgentSSL(options) {
@@ -81181,9 +81181,9 @@ var require_forever_agent = __commonJS({
     util2.inherits(ForeverAgentSSL, ForeverAgent);
     ForeverAgentSSL.prototype.createConnection = createConnectionSSL;
     ForeverAgentSSL.prototype.addRequestNoreuse = AgentSSL.prototype.addRequest;
-    function createConnectionSSL(port2, host, options) {
-      if (typeof port2 === "object") {
-        options = port2;
+    function createConnectionSSL(port, host, options) {
+      if (typeof port === "object") {
+        options = port;
       } else if (typeof host === "object") {
         options = host;
       } else if (typeof options === "object") {
@@ -81191,8 +81191,8 @@ var require_forever_agent = __commonJS({
       } else {
         options = {};
       }
-      if (typeof port2 === "number") {
-        options.port = port2;
+      if (typeof port === "number") {
+        options.port = port;
       }
       if (typeof host === "string") {
         options.host = host;
@@ -82104,14 +82104,14 @@ var require_getProxyFromURI = __commonJS({
       return { hostname: zoneHost, port: zonePort, hasPort };
     }
     function uriInNoProxy(uri, noProxy) {
-      var port2 = uri.port || (uri.protocol === "https:" ? "443" : "80");
+      var port = uri.port || (uri.protocol === "https:" ? "443" : "80");
       var hostname = formatHostname(uri.hostname);
       var noProxyList = noProxy.split(",");
       return noProxyList.map(parseNoProxyZone).some(function(noProxyZone) {
         var isMatchedAt = hostname.indexOf(noProxyZone.hostname);
         var hostnameMatched = isMatchedAt > -1 && isMatchedAt === hostname.length - noProxyZone.hostname.length;
         if (noProxyZone.hasPort) {
-          return port2 === noProxyZone.port && hostnameMatched;
+          return port === noProxyZone.port && hostnameMatched;
         }
         return hostnameMatched;
       });
@@ -84050,10 +84050,10 @@ var require_tunnel_agent = __commonJS({
       self2.maxSockets = self2.options.maxSockets || http.Agent.defaultMaxSockets;
       self2.requests = [];
       self2.sockets = [];
-      self2.on("free", function onFree(socket, host, port2) {
+      self2.on("free", function onFree(socket, host, port) {
         for (var i = 0, len = self2.requests.length; i < len; ++i) {
           var pending = self2.requests[i];
-          if (pending.host === host && pending.port === port2) {
+          if (pending.host === host && pending.port === port) {
             self2.requests.splice(i, 1);
             pending.request.onSocket(socket);
             return;
@@ -84246,11 +84246,11 @@ var require_tunnel = __commonJS({
       "proxy-authorization"
     ];
     function constructProxyHost(uriObject) {
-      var port2 = uriObject.port;
+      var port = uriObject.port;
       var protocol = uriObject.protocol;
       var proxyHost = uriObject.hostname + ":";
-      if (port2) {
-        proxyHost += port2;
+      if (port) {
+        proxyHost += port;
       } else if (protocol === "https:") {
         proxyHost += "443";
       } else {
@@ -85985,25 +85985,25 @@ var require_punycode = __commonJS({
 var require_requires_port = __commonJS({
   "../../node_modules/.pnpm/requires-port@1.0.0/node_modules/requires-port/index.js"(exports2, module2) {
     "use strict";
-    module2.exports = function required(port2, protocol) {
+    module2.exports = function required(port, protocol) {
       protocol = protocol.split(":")[0];
-      port2 = +port2;
-      if (!port2) return false;
+      port = +port;
+      if (!port) return false;
       switch (protocol) {
         case "http":
         case "ws":
-          return port2 !== 80;
+          return port !== 80;
         case "https":
         case "wss":
-          return port2 !== 443;
+          return port !== 443;
         case "ftp":
-          return port2 !== 21;
+          return port !== 21;
         case "gopher":
-          return port2 !== 70;
+          return port !== 70;
         case "file":
           return false;
       }
-      return port2 !== 0;
+      return port !== 0;
     };
   }
 });
@@ -86069,7 +86069,7 @@ var require_url_parse = __commonJS({
     var controlOrWhitespace = /^[\x00-\x20\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]+/;
     var CRHTLF = /[\n\r\t]/g;
     var slashes = /^[A-Za-z][A-Za-z0-9+-.]*:\/\//;
-    var port2 = /:\d+$/;
+    var port = /:\d+$/;
     var protocolre = /^([a-z][a-z0-9.+-]*:)?(\/\/)?([\\/]+)?([\S\s]*)/i;
     var windowsDriveLetter = /^[a-zA-Z]:/;
     function trimLeft(str) {
@@ -86289,7 +86289,7 @@ var require_url_parse = __commonJS({
           break;
         case "host":
           url[part] = value;
-          if (port2.test(value)) {
+          if (port.test(value)) {
             value = value.split(":");
             url.port = value.pop();
             url.hostname = value.join(":");
@@ -86350,7 +86350,7 @@ var require_url_parse = __commonJS({
       } else if (url.protocol !== "file:" && isSpecial(url.protocol) && !host && url.pathname !== "/") {
         result += "@";
       }
-      if (host[host.length - 1] === ":" || port2.test(url.hostname) && !url.port) {
+      if (host[host.length - 1] === ":" || port.test(url.hostname) && !url.port) {
         host += ":";
       }
       result += host + url.pathname;
@@ -95992,7 +95992,7 @@ var require_ipv6 = __commonJS({
        */
       static fromURL(url) {
         let host;
-        let port2 = null;
+        let port = null;
         let result;
         if (url.indexOf("[") !== -1 && url.indexOf("]:") !== -1) {
           result = constants6.RE_URL_WITH_PORT.exec(url);
@@ -96004,7 +96004,7 @@ var require_ipv6 = __commonJS({
             };
           }
           host = result[1];
-          port2 = result[2];
+          port = result[2];
         } else if (url.indexOf("/") !== -1) {
           url = url.replace(/^[a-z0-9]+:\/\//, "");
           result = constants6.RE_URL.exec(url);
@@ -96019,17 +96019,17 @@ var require_ipv6 = __commonJS({
         } else {
           host = url;
         }
-        if (port2) {
-          port2 = parseInt(port2, 10);
-          if (port2 < 0 || port2 > 65536) {
-            port2 = null;
+        if (port) {
+          port = parseInt(port, 10);
+          if (port < 0 || port > 65536) {
+            port = null;
           }
         } else {
-          port2 = null;
+          port = null;
         }
         return {
           address: new _Address6(host),
-          port: port2
+          port
         };
       }
       /**
@@ -110066,21 +110066,15 @@ process.on("unhandledRejection", (reason) => {
   logger.error({ reason }, "unhandledRejection \u2014 process kept alive");
 });
 var rawPort = process.env["PORT"];
+var listenOn;
 if (!rawPort) {
-  throw new Error(
-    "PORT environment variable is required but was not provided."
-  );
+  listenOn = 3e3;
+} else {
+  const numeric2 = Number(rawPort);
+  listenOn = Number.isNaN(numeric2) ? rawPort : numeric2;
 }
-var port = Number(rawPort);
-if (Number.isNaN(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: "${rawPort}"`);
-}
-app_default.listen(port, (err) => {
-  if (err) {
-    logger.error({ err }, "Error listening on port");
-    process.exit(1);
-  }
-  logger.info({ port }, "Server listening");
+app_default.listen(listenOn, () => {
+  logger.info({ listenOn }, "Server listening");
 });
 /*! Bundled license information:
 

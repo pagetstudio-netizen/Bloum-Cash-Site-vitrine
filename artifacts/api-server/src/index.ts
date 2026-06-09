@@ -12,23 +12,20 @@ process.on("unhandledRejection", (reason) => {
 
 const rawPort = process.env["PORT"];
 
+// Phusion Passenger (Plesk) may provide a Unix socket path instead of a
+// numeric port, or may not set PORT at all. We must handle all three cases:
+//   1. Numeric string  → parse as number
+//   2. Socket path     → pass the string directly to app.listen()
+//   3. Not set         → fall back to 3000
+let listenOn: number | string;
+
 if (!rawPort) {
-  throw new Error(
-    "PORT environment variable is required but was not provided.",
-  );
+  listenOn = 3000;
+} else {
+  const numeric = Number(rawPort);
+  listenOn = Number.isNaN(numeric) ? rawPort : numeric;
 }
 
-const port = Number(rawPort);
-
-if (Number.isNaN(port) || port <= 0) {
-  throw new Error(`Invalid PORT value: "${rawPort}"`);
-}
-
-app.listen(port, (err) => {
-  if (err) {
-    logger.error({ err }, "Error listening on port");
-    process.exit(1);
-  }
-
-  logger.info({ port }, "Server listening");
+app.listen(listenOn, () => {
+  logger.info({ listenOn }, "Server listening");
 });
