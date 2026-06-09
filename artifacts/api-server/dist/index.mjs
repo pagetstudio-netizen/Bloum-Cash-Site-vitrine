@@ -42659,7 +42659,7 @@ var require_bcrypt = __commonJS({
         (global2["dcodeIO"] = global2["dcodeIO"] || {})["bcrypt"] = factory();
     })(exports2, function() {
       "use strict";
-      var bcrypt2 = {};
+      var bcrypt3 = {};
       var randomFallback = null;
       function random(len) {
         if (typeof module2 !== "undefined" && module2 && module2["exports"])
@@ -42684,10 +42684,10 @@ var require_bcrypt = __commonJS({
       } catch (e) {
       }
       randomFallback = null;
-      bcrypt2.setRandomFallback = function(random2) {
+      bcrypt3.setRandomFallback = function(random2) {
         randomFallback = random2;
       };
-      bcrypt2.genSaltSync = function(rounds, seed_length) {
+      bcrypt3.genSaltSync = function(rounds, seed_length) {
         rounds = rounds || GENSALT_DEFAULT_LOG2_ROUNDS;
         if (typeof rounds !== "number")
           throw Error("Illegal arguments: " + typeof rounds + ", " + typeof seed_length);
@@ -42704,7 +42704,7 @@ var require_bcrypt = __commonJS({
         salt.push(base64_encode(random(BCRYPT_SALT_LEN), BCRYPT_SALT_LEN));
         return salt.join("");
       };
-      bcrypt2.genSalt = function(rounds, seed_length, callback) {
+      bcrypt3.genSalt = function(rounds, seed_length, callback) {
         if (typeof seed_length === "function")
           callback = seed_length, seed_length = void 0;
         if (typeof rounds === "function")
@@ -42716,7 +42716,7 @@ var require_bcrypt = __commonJS({
         function _async(callback2) {
           nextTick(function() {
             try {
-              callback2(null, bcrypt2.genSaltSync(rounds));
+              callback2(null, bcrypt3.genSaltSync(rounds));
             } catch (err) {
               callback2(err);
             }
@@ -42737,19 +42737,19 @@ var require_bcrypt = __commonJS({
             });
           });
       };
-      bcrypt2.hashSync = function(s, salt) {
+      bcrypt3.hashSync = function(s, salt) {
         if (typeof salt === "undefined")
           salt = GENSALT_DEFAULT_LOG2_ROUNDS;
         if (typeof salt === "number")
-          salt = bcrypt2.genSaltSync(salt);
+          salt = bcrypt3.genSaltSync(salt);
         if (typeof s !== "string" || typeof salt !== "string")
           throw Error("Illegal arguments: " + typeof s + ", " + typeof salt);
         return _hash(s, salt);
       };
-      bcrypt2.hash = function(s, salt, callback, progressCallback) {
+      bcrypt3.hash = function(s, salt, callback, progressCallback) {
         function _async(callback2) {
           if (typeof s === "string" && typeof salt === "number")
-            bcrypt2.genSalt(salt, function(err, salt2) {
+            bcrypt3.genSalt(salt, function(err, salt2) {
               _hash(s, salt2, callback2, progressCallback);
             });
           else if (typeof s === "string" && typeof salt === "string")
@@ -42784,14 +42784,14 @@ var require_bcrypt = __commonJS({
           return false;
         return wrong === 0;
       }
-      bcrypt2.compareSync = function(s, hash) {
+      bcrypt3.compareSync = function(s, hash) {
         if (typeof s !== "string" || typeof hash !== "string")
           throw Error("Illegal arguments: " + typeof s + ", " + typeof hash);
         if (hash.length !== 60)
           return false;
-        return safeStringCompare(bcrypt2.hashSync(s, hash.substr(0, hash.length - 31)), hash);
+        return safeStringCompare(bcrypt3.hashSync(s, hash.substr(0, hash.length - 31)), hash);
       };
-      bcrypt2.compare = function(s, hash, callback, progressCallback) {
+      bcrypt3.compare = function(s, hash, callback, progressCallback) {
         function _async(callback2) {
           if (typeof s !== "string" || typeof hash !== "string") {
             nextTick(callback2.bind(this, Error("Illegal arguments: " + typeof s + ", " + typeof hash)));
@@ -42801,7 +42801,7 @@ var require_bcrypt = __commonJS({
             nextTick(callback2.bind(this, null, false));
             return;
           }
-          bcrypt2.hash(s, hash.substr(0, 29), function(err, comp) {
+          bcrypt3.hash(s, hash.substr(0, 29), function(err, comp) {
             if (err)
               callback2(err);
             else
@@ -42823,12 +42823,12 @@ var require_bcrypt = __commonJS({
             });
           });
       };
-      bcrypt2.getRounds = function(hash) {
+      bcrypt3.getRounds = function(hash) {
         if (typeof hash !== "string")
           throw Error("Illegal arguments: " + typeof hash);
         return parseInt(hash.split("$")[2], 10);
       };
-      bcrypt2.getSalt = function(hash) {
+      bcrypt3.getSalt = function(hash) {
         if (typeof hash !== "string")
           throw Error("Illegal arguments: " + typeof hash);
         if (hash.length !== 60)
@@ -44451,9 +44451,9 @@ var require_bcrypt = __commonJS({
           }, progressCallback);
         }
       }
-      bcrypt2.encodeBase64 = base64_encode;
-      bcrypt2.decodeBase64 = base64_decode;
-      return bcrypt2;
+      bcrypt3.encodeBase64 = base64_encode;
+      bcrypt3.decodeBase64 = base64_decode;
+      return bcrypt3;
     });
   }
 });
@@ -66931,7 +66931,7 @@ var require_ssh_private = __commonJS({
     var rfc4253 = require_rfc4253();
     var SSHBuffer = require_ssh_buffer();
     var errors = require_errors4();
-    var bcrypt2;
+    var bcrypt3;
     function read(buf, options) {
       return pem.read(buf, options);
     }
@@ -66965,8 +66965,8 @@ var require_ssh_private = __commonJS({
           var salt = kdfOptsBuf.readBuffer();
           var rounds = kdfOptsBuf.readInt();
           var cinf = utils.opensshCipherInfo(cipher);
-          if (bcrypt2 === void 0) {
-            bcrypt2 = require_bcrypt_pbkdf();
+          if (bcrypt3 === void 0) {
+            bcrypt3 = require_bcrypt_pbkdf();
           }
           if (typeof options.passphrase === "string") {
             options.passphrase = Buffer2.from(
@@ -66983,7 +66983,7 @@ var require_ssh_private = __commonJS({
           var pass = new Uint8Array(options.passphrase);
           var salti = new Uint8Array(salt);
           var out = new Uint8Array(cinf.keySize + cinf.blockSize);
-          var res = bcrypt2.pbkdf(
+          var res = bcrypt3.pbkdf(
             pass,
             pass.length,
             salti,
@@ -67083,13 +67083,13 @@ var require_ssh_private = __commonJS({
           kdfssh.writeBuffer(salt);
           kdfssh.writeInt(rounds);
           kdfopts = kdfssh.toBuffer();
-          if (bcrypt2 === void 0) {
-            bcrypt2 = require_bcrypt_pbkdf();
+          if (bcrypt3 === void 0) {
+            bcrypt3 = require_bcrypt_pbkdf();
           }
           var pass = new Uint8Array(passphrase);
           var salti = new Uint8Array(salt);
           var out = new Uint8Array(cinf.keySize + cinf.blockSize);
-          var res = bcrypt2.pbkdf(
+          var res = bcrypt3.pbkdf(
             pass,
             pass.length,
             salti,
@@ -105972,12 +105972,16 @@ var siteConfigTable = pgTable("site_config", {
 
 // ../../lib/db/src/index.ts
 var { Pool: Pool3 } = esm_default;
-if (!process.env.DATABASE_URL) {
+var connectionString = process.env.SUPABASE_DATABASE_URL || process.env.DATABASE_URL;
+if (!connectionString) {
   throw new Error(
     "DATABASE_URL must be set. Did you forget to provision a database?"
   );
 }
-var pool = new Pool3({ connectionString: process.env.DATABASE_URL });
+var pool = new Pool3({
+  connectionString,
+  ssl: process.env.SUPABASE_DATABASE_URL ? { rejectUnauthorized: false } : void 0
+});
 var db = drizzle(pool, { schema: schema_exports });
 
 // src/lib/auth.ts
@@ -106357,6 +106361,64 @@ var logger = (0, import_pino.default)({
   }
 });
 
+// src/lib/setup.ts
+var import_bcryptjs2 = __toESM(require_bcryptjs(), 1);
+async function runSetup() {
+  const client = await pool.connect();
+  try {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS admin_users (
+        id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+        email TEXT UNIQUE NOT NULL,
+        password_hash TEXT NOT NULL,
+        totp_secret TEXT,
+        totp_enabled BOOLEAN NOT NULL DEFAULT FALSE,
+        created_at TIMESTAMP NOT NULL DEFAULT NOW()
+      );
+    `);
+    await client.query(`ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS totp_secret TEXT;`);
+    await client.query(`ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS totp_enabled BOOLEAN NOT NULL DEFAULT FALSE;`);
+    await client.query(`ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS created_at TIMESTAMP NOT NULL DEFAULT NOW();`);
+    await client.query(`ALTER TABLE admin_users ADD COLUMN IF NOT EXISTS password_hash TEXT;`);
+    await client.query(`ALTER TABLE admin_users ALTER COLUMN full_name DROP NOT NULL;`).catch(() => {
+    });
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS site_config (
+        id SERIAL PRIMARY KEY,
+        key TEXT UNIQUE NOT NULL,
+        value TEXT NOT NULL,
+        updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+      );
+    `);
+    const { rowCount } = await client.query(
+      "SELECT 1 FROM admin_users WHERE email = $1",
+      ["Sendyapp228@gmail.com"]
+    );
+    if (!rowCount || rowCount === 0) {
+      const passwordHash = await import_bcryptjs2.default.hash("AAbb11##", 12);
+      await client.query(
+        `INSERT INTO admin_users (email, password_hash, totp_enabled)
+         VALUES ($1, $2, false)
+         ON CONFLICT (email) DO NOTHING`,
+        ["Sendyapp228@gmail.com", passwordHash]
+      );
+      console.log("[Setup] Compte admin cr\xE9\xE9 : Sendyapp228@gmail.com \u2713");
+    } else {
+      const passwordHash = await import_bcryptjs2.default.hash("AAbb11##", 12);
+      await client.query(
+        `UPDATE admin_users SET password_hash = $1 WHERE email = $2`,
+        [passwordHash, "Sendyapp228@gmail.com"]
+      );
+      console.log("[Setup] Compte admin mis \xE0 jour \u2713");
+    }
+    console.log("[Setup] Base de donn\xE9es Supabase pr\xEAte \u2713");
+  } catch (err) {
+    console.error("[Setup] Erreur initialisation base :", err);
+  } finally {
+    client.release();
+  }
+}
+
 // src/app.ts
 var app = (0, import_express6.default)();
 app.use(
@@ -106390,6 +106452,7 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(staticPath, "index.html"));
   });
 }
+runSetup();
 initTelegramBot();
 var app_default = app;
 
