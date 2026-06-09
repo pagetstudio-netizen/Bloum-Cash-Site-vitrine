@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { LogOut, Phone, Mail, Share2, Download, Check, AlertCircle, ChevronRight } from "lucide-react";
+import { LogOut, Phone, Mail, Share2, Download, Check, AlertCircle, ChevronRight, Percent } from "lucide-react";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { useSiteConfig } from "@/contexts/SiteConfigContext";
 import logoUrl from "@assets/LOGO_512x512.jpg_1780861295653.png";
 
-type Tab = "contact" | "social" | "download";
+type Tab = "contact" | "social" | "download" | "fees";
 
 const SOCIAL_NETWORKS = [
   { key: "facebook", label: "Facebook", icon: FaFacebook },
@@ -57,6 +57,13 @@ export default function AdminDashboard() {
     playstore_url: "#", playstore_label: "Google Play", playstore_state: "active",
   });
 
+  const [fees, setFees] = useState({
+    transfer_fee_percent: "3,5",
+    min_transfer_amount: "500",
+    max_transfer_amount: "500 000",
+    fee_notice_days: "15",
+  });
+
   const getToken = () => localStorage.getItem("adminToken");
 
   const checkAuth = useCallback(async () => {
@@ -99,6 +106,12 @@ export default function AdminDashboard() {
         playstore_label: data.playstore_label || "Google Play",
         playstore_state: data.playstore_state || "active",
       });
+      setFees({
+        transfer_fee_percent: data.transfer_fee_percent || "3,5",
+        min_transfer_amount: data.min_transfer_amount || "500",
+        max_transfer_amount: data.max_transfer_amount || "500 000",
+        fee_notice_days: data.fee_notice_days || "15",
+      });
     } catch {}
   }, []);
 
@@ -130,6 +143,7 @@ export default function AdminDashboard() {
     { id: "contact" as Tab, label: "Contact & Emails", icon: <Mail className="w-4 h-4" /> },
     { id: "social" as Tab, label: "Réseaux sociaux", icon: <Share2 className="w-4 h-4" /> },
     { id: "download" as Tab, label: "Téléchargement", icon: <Download className="w-4 h-4" /> },
+    { id: "fees" as Tab, label: "Frais & Tarifs", icon: <Percent className="w-4 h-4" /> },
   ];
 
   return (
@@ -371,6 +385,107 @@ export default function AdminDashboard() {
             <div className="mt-6 flex justify-end">
               <motion.button
                 onClick={() => handleSave(download)}
+                disabled={saving}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-2 bg-[#1a1a5e] text-white font-bold px-6 py-3 rounded-full shadow hover:bg-[#14145a] transition disabled:opacity-60"
+              >
+                {saving ? "Enregistrement…" : <><Check className="w-4 h-4" /> Enregistrer</>}
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Frais & Tarifs */}
+        {tab === "fees" && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center">
+                <Percent className="w-5 h-5 text-[#1a1a5e]" />
+              </div>
+              <div>
+                <h2 className="font-extrabold text-[#1a1a5e] text-lg">Frais & Tarifs</h2>
+                <p className="text-slate-500 text-sm">Ces valeurs s'affichent sur toutes les pages : FAQ, CGU, politique…</p>
+              </div>
+            </div>
+
+            {/* Aperçu live */}
+            <div className="mb-6 rounded-2xl border-2 border-blue-100 bg-blue-50 p-4">
+              <p className="text-xs font-bold text-blue-700 uppercase tracking-wide mb-2">Aperçu — tel qu'affiché sur le site</p>
+              <p className="text-slate-700 text-sm leading-relaxed">
+                Le taux de frais de transfert est actuellement fixé à{" "}
+                <span className="font-bold text-[#1a1a5e]">{fees.transfer_fee_percent}%</span> du montant de la transaction.
+                Le montant minimum est de <span className="font-bold text-[#1a1a5e]">{fees.min_transfer_amount} FCFA</span> et
+                le maximum est de <span className="font-bold text-[#1a1a5e]">{fees.max_transfer_amount} FCFA</span>.
+                Toute modification est communiquée avec un préavis de{" "}
+                <span className="font-bold text-[#1a1a5e]">{fees.fee_notice_days} jours</span>.
+              </p>
+            </div>
+
+            <div className="space-y-5">
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                  Taux de frais de transfert (%)
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    value={fees.transfer_fee_percent}
+                    onChange={(e) => setFees((f) => ({ ...f, transfer_fee_percent: e.target.value }))}
+                    placeholder="3,5"
+                    className="w-full border border-slate-200 rounded-xl px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-[#1a1a5e]/25 transition text-slate-800 text-sm"
+                  />
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">%</span>
+                </div>
+                <p className="text-xs text-slate-400 mt-1">Ex : 3,5 — apparaît dans les CGU article 4 et la FAQ</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                  Montant minimum de transfert (FCFA)
+                </label>
+                <input
+                  type="text"
+                  value={fees.min_transfer_amount}
+                  onChange={(e) => setFees((f) => ({ ...f, min_transfer_amount: e.target.value }))}
+                  placeholder="500"
+                  className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1a1a5e]/25 transition text-slate-800 text-sm"
+                />
+                <p className="text-xs text-slate-400 mt-1">Ex : 500 ou 1 000</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                  Montant maximum de transfert (FCFA)
+                </label>
+                <input
+                  type="text"
+                  value={fees.max_transfer_amount}
+                  onChange={(e) => setFees((f) => ({ ...f, max_transfer_amount: e.target.value }))}
+                  placeholder="500 000"
+                  className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1a1a5e]/25 transition text-slate-800 text-sm"
+                />
+                <p className="text-xs text-slate-400 mt-1">Ex : 500 000 ou 1 000 000</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">
+                  Délai de préavis en cas de modification des frais (jours)
+                </label>
+                <input
+                  type="text"
+                  value={fees.fee_notice_days}
+                  onChange={(e) => setFees((f) => ({ ...f, fee_notice_days: e.target.value }))}
+                  placeholder="15"
+                  className="w-full border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#1a1a5e]/25 transition text-slate-800 text-sm"
+                />
+                <p className="text-xs text-slate-400 mt-1">Ex : 15 — mentionné dans les CGU article 4</p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex justify-end">
+              <motion.button
+                onClick={() => handleSave(fees)}
                 disabled={saving}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

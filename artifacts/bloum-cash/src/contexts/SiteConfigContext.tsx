@@ -22,6 +22,10 @@ export interface SiteConfig {
   playstore_url: string;
   playstore_label: string;
   playstore_state: string;
+  transfer_fee_percent: string;
+  min_transfer_amount: string;
+  max_transfer_amount: string;
+  fee_notice_days: string;
 }
 
 const DEFAULTS: SiteConfig = {
@@ -46,6 +50,10 @@ const DEFAULTS: SiteConfig = {
   playstore_url: "#",
   playstore_label: "Google Play",
   playstore_state: "active",
+  transfer_fee_percent: "3,5",
+  min_transfer_amount: "500",
+  max_transfer_amount: "500 000",
+  fee_notice_days: "15",
 };
 
 interface SiteConfigContextType {

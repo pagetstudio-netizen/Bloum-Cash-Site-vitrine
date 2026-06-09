@@ -107,7 +107,7 @@ export default function Conditions() {
             {
               num: "4",
               title: "Frais de service, commissions et transparence tarifaire",
-              content: `Des frais de service s'appliquent à certaines opérations effectuées via la Plateforme. Le taux de frais de transfert est actuellement fixé à 3,5% du montant de la transaction. Ces frais sont clairement affichés avant toute confirmation de transaction. Bloum Cash s'engage à ne prélever aucun frais caché ou non annoncé. La grille tarifaire complète est disponible dans la section « Tarifs » de l'application et peut être modifiée après préavis de 15 jours communiqué aux utilisateurs actifs.`,
+              content: `Des frais de service s'appliquent à certaines opérations effectuées via la Plateforme. Le taux de frais de transfert est actuellement fixé à ${config.transfer_fee_percent}% du montant de la transaction. Le montant minimum de transfert est de ${config.min_transfer_amount} FCFA et le montant maximum est de ${config.max_transfer_amount} FCFA. Ces frais sont clairement affichés avant toute confirmation de transaction. Bloum Cash s'engage à ne prélever aucun frais caché ou non annoncé. La grille tarifaire complète est disponible dans la section « Tarifs » de l'application et peut être modifiée après préavis de ${config.fee_notice_days} jours communiqué aux utilisateurs actifs.`,
             },
             {
               num: "5",

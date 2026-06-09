@@ -2,38 +2,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
+import { useSiteConfig } from "@/contexts/SiteConfigContext";
 import csIcon from "@assets/mine-mod-cs-DtBQ0Sp0_1780938124590.png";
 import faqIcon from "@assets/téléchargement_(67)_1780938124508.png";
 
 const blueFilter =
   "brightness(0) saturate(100%) invert(17%) sepia(100%) saturate(7484%) hue-rotate(213deg) brightness(97%) contrast(103%)";
-
-const faqs = [
-  {
-    q: "Comment envoyer de l'argent avec Bloum Cash ?",
-    a: "Téléchargez l'application, créez votre compte, sélectionnez 'Envoyer', entrez le numéro du destinataire et le montant. La transaction est confirmée en quelques secondes.",
-  },
-  {
-    q: "Quels opérateurs sont compatibles avec Bloum Cash ?",
-    a: "Bloum Cash est compatible avec TMoney et Moov Money (anciennement Flooz). Vous pouvez transférer entre ces deux réseaux sans frais supplémentaires.",
-  },
-  {
-    q: "Quels sont les frais de transfert ?",
-    a: "Les frais varient selon le montant transféré. Consultez notre page Tarifs pour les détails complets. En général, les frais sont très compétitifs par rapport aux autres solutions disponibles.",
-  },
-  {
-    q: "Mon argent est-il en sécurité ?",
-    a: "Absolument. Bloum Cash utilise un chiffrement AES-256 de bout en bout, une authentification à deux facteurs et une surveillance anti-fraude en temps réel pour protéger chaque transaction.",
-  },
-  {
-    q: "Comment contacter le support client ?",
-    a: "Vous pouvez nous contacter via le formulaire sur la page Contact, par email ou via le chat intégré dans l'application. Notre équipe répond dans un délai de 2 heures.",
-  },
-  {
-    q: "L'application est-elle disponible hors ligne ?",
-    a: "L'application nécessite une connexion internet pour effectuer des transactions. Cependant, vous pouvez consulter votre historique de transactions en mode hors ligne.",
-  },
-];
 
 function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
   const [open, setOpen] = useState(false);
@@ -74,6 +48,35 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
 }
 
 export default function Support() {
+  const { config } = useSiteConfig();
+
+  const faqs = [
+    {
+      q: "Comment envoyer de l'argent avec Bloum Cash ?",
+      a: "Téléchargez l'application, créez votre compte, sélectionnez 'Envoyer', entrez le numéro du destinataire et le montant. La transaction est confirmée en quelques secondes.",
+    },
+    {
+      q: "Quels opérateurs sont compatibles avec Bloum Cash ?",
+      a: "Bloum Cash est compatible avec TMoney et Moov Money (anciennement Flooz). Vous pouvez transférer entre ces deux réseaux sans frais supplémentaires.",
+    },
+    {
+      q: "Quels sont les frais de transfert ?",
+      a: `Les frais de transfert sont de ${config.transfer_fee_percent}% du montant de la transaction. Le montant minimum de transfert est de ${config.min_transfer_amount} FCFA et le maximum est de ${config.max_transfer_amount} FCFA. Ces frais sont clairement affichés avant toute confirmation de transaction. Bloum Cash s'engage à ne prélever aucun frais caché.`,
+    },
+    {
+      q: "Mon argent est-il en sécurité ?",
+      a: "Absolument. Bloum Cash utilise un chiffrement AES-256 de bout en bout, une authentification à deux facteurs et une surveillance anti-fraude en temps réel pour protéger chaque transaction.",
+    },
+    {
+      q: "Comment contacter le support client ?",
+      a: "Vous pouvez nous contacter via le formulaire sur la page Contact, par email ou via le chat intégré dans l'application. Notre équipe répond dans un délai de 2 heures.",
+    },
+    {
+      q: "L'application est-elle disponible hors ligne ?",
+      a: "L'application nécessite une connexion internet pour effectuer des transactions. Cependant, vous pouvez consulter votre historique de transactions en mode hors ligne.",
+    },
+  ];
+
   return (
     <PageLayout>
       <section className="py-20 bg-gradient-to-br from-primary/5 to-blue-50">
