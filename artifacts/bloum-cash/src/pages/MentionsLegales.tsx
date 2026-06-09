@@ -1,54 +1,57 @@
 import { motion } from "framer-motion";
 import PageLayout from "@/components/PageLayout";
-
-const sections = [
-  {
-    title: "Éditeur du site",
-    content: [
-      "Dénomination sociale : Bloum Cash SAS",
-      "Siège social : Lomé, Togo",
-      "Email : contact@bloumcash.tg",
-      "Directeur de la publication : Équipe Bloum Cash",
-    ],
-  },
-  {
-    title: "Hébergement",
-    content: [
-      "L'application et le site web Bloum Cash sont hébergés sur des infrastructures cloud sécurisées.",
-      "Les serveurs sont situés en Europe et en Afrique pour garantir la meilleure performance pour les utilisateurs togolais.",
-    ],
-  },
-  {
-    title: "Propriété intellectuelle",
-    content: [
-      "L'ensemble des contenus présents sur l'application Bloum Cash (textes, images, logos, icônes, charte graphique) sont protégés par le droit de la propriété intellectuelle.",
-      "Toute reproduction, représentation ou diffusion, en tout ou partie, sans autorisation écrite préalable de Bloum Cash est strictement interdite.",
-    ],
-  },
-  {
-    title: "Limitation de responsabilité",
-    content: [
-      "Bloum Cash s'engage à maintenir un service disponible 24h/24, 7j/7, mais ne peut garantir une disponibilité absolue.",
-      "En cas d'indisponibilité du service, Bloum Cash s'engage à informer ses utilisateurs dans les plus brefs délais.",
-      "La responsabilité de Bloum Cash ne saurait être engagée en cas de force majeure ou de défaillance des réseaux téléphoniques des opérateurs partenaires.",
-    ],
-  },
-  {
-    title: "Droit applicable",
-    content: [
-      "Les présentes mentions légales sont régies par le droit togolais.",
-      "En cas de litige, les tribunaux compétents sont ceux de Lomé, Togo.",
-    ],
-  },
-  {
-    title: "Contact",
-    content: [
-      "Pour toute question relative aux présentes mentions légales, vous pouvez nous contacter à : legal@bloumcash.tg",
-    ],
-  },
-];
+import { useSiteConfig } from "@/contexts/SiteConfigContext";
 
 export default function MentionsLegales() {
+  const { config } = useSiteConfig();
+
+  const sections = [
+    {
+      title: "Éditeur du site",
+      content: [
+        "Dénomination sociale : Bloum Cash SAS",
+        "Siège social : Lomé, Togo",
+        `Email : ${config.contact_email}`,
+        "Directeur de la publication : Équipe Bloum Cash",
+      ],
+    },
+    {
+      title: "Hébergement",
+      content: [
+        "L'application et le site web Bloum Cash sont hébergés sur des infrastructures cloud sécurisées.",
+        "Les serveurs sont situés en Europe et en Afrique pour garantir la meilleure performance pour les utilisateurs togolais.",
+      ],
+    },
+    {
+      title: "Propriété intellectuelle",
+      content: [
+        "L'ensemble des contenus présents sur l'application Bloum Cash (textes, images, logos, icônes, charte graphique) sont protégés par le droit de la propriété intellectuelle.",
+        "Toute reproduction, représentation ou diffusion, en tout ou partie, sans autorisation écrite préalable de Bloum Cash est strictement interdite.",
+      ],
+    },
+    {
+      title: "Limitation de responsabilité",
+      content: [
+        "Bloum Cash s'engage à maintenir un service disponible 24h/24, 7j/7, mais ne peut garantir une disponibilité absolue.",
+        "En cas d'indisponibilité du service, Bloum Cash s'engage à informer ses utilisateurs dans les plus brefs délais.",
+        "La responsabilité de Bloum Cash ne saurait être engagée en cas de force majeure ou de défaillance des réseaux téléphoniques des opérateurs partenaires.",
+      ],
+    },
+    {
+      title: "Droit applicable",
+      content: [
+        "Les présentes mentions légales sont régies par le droit togolais.",
+        "En cas de litige, les tribunaux compétents sont ceux de Lomé, Togo.",
+      ],
+    },
+    {
+      title: "Contact",
+      content: [
+        `Pour toute question relative aux présentes mentions légales, vous pouvez nous contacter à : ${config.legal_email}`,
+      ],
+    },
+  ];
+
   return (
     <PageLayout>
       <section className="py-20 bg-gradient-to-br from-primary/5 to-blue-50">

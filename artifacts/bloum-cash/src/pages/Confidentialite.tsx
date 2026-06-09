@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ShieldCheck, Lock, Eye, Database, UserCheck, Mail, Globe, FileText } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
+import { useSiteConfig } from "@/contexts/SiteConfigContext";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 22 },
@@ -19,6 +20,7 @@ const principles = [
 ];
 
 export default function Confidentialite() {
+  const { config } = useSiteConfig();
   return (
     <PageLayout>
       {/* Hero */}
@@ -196,7 +198,7 @@ export default function Confidentialite() {
                 },
                 {
                   subtitle: "Comment exercer vos droits ?",
-                  text: "Pour exercer l'un de ces droits, contactez notre Délégué à la Protection des Données à l'adresse privacy@bloumcash.com en précisant votre identité et la nature de votre demande. Nous vous répondrons dans un délai de 30 jours.",
+                  text: `Pour exercer l'un de ces droits, contactez notre Délégué à la Protection des Données à l'adresse ${config.privacy_email} en précisant votre identité et la nature de votre demande. Nous vous répondrons dans un délai de 30 jours.`,
                 },
               ],
             },
@@ -258,9 +260,9 @@ export default function Confidentialite() {
             <p className="font-bold text-white text-lg mb-1">Contact — Délégué à la Protection des Données</p>
             <p className="text-blue-100 text-sm mb-4">Pour toute question relative à vos données personnelles ou pour exercer vos droits :</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="mailto:privacy@bloumcash.com" className="flex items-center gap-2 bg-white/20 hover:bg-white/30 transition-colors rounded-full px-5 py-2.5 text-sm font-bold">
+              <a href={`mailto:${config.privacy_email}`} className="flex items-center gap-2 bg-white/20 hover:bg-white/30 transition-colors rounded-full px-5 py-2.5 text-sm font-bold">
                 <Mail className="w-4 h-4" />
-                privacy@bloumcash.com
+                {config.privacy_email}
               </a>
               <a href="/contact" className="flex items-center gap-2 bg-white/20 hover:bg-white/30 transition-colors rounded-full px-5 py-2.5 text-sm font-bold">
                 <FileText className="w-4 h-4" />

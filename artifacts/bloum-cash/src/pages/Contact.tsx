@@ -2,12 +2,22 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import PageLayout from "@/components/PageLayout";
 import csIcon from "@assets/mine-mod-cs-DtBQ0Sp0_1780938124590.png";
-import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { useSiteConfig } from "@/contexts/SiteConfigContext";
 
 const blueFilter =
   "brightness(0) saturate(100%) invert(17%) sepia(100%) saturate(7484%) hue-rotate(213deg) brightness(97%) contrast(103%)";
 
+const SOCIAL_ICONS: Record<string, typeof FaFacebook> = {
+  facebook: FaFacebook,
+  instagram: FaInstagram,
+  twitter: FaTwitter,
+  linkedin: FaLinkedin,
+  youtube: FaYoutube,
+};
+
 export default function Contact() {
+  const { config } = useSiteConfig();
   const [sent, setSent] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
@@ -15,6 +25,10 @@ export default function Contact() {
     e.preventDefault();
     setSent(true);
   };
+
+  const activeSocials = ["facebook", "instagram", "twitter", "linkedin", "youtube"].filter(
+    (k) => config[`${k}_enabled` as keyof typeof config] === "true"
+  );
 
   return (
     <PageLayout>
@@ -48,7 +62,6 @@ export default function Contact() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-5xl mx-auto">
-            {/* Form */}
             <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
               {sent ? (
                 <motion.div
@@ -111,7 +124,6 @@ export default function Contact() {
               )}
             </motion.div>
 
-            {/* Info */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -120,26 +132,40 @@ export default function Contact() {
             >
               <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
                 <h3 className="font-bold text-foreground mb-2">Email</h3>
-                <p className="text-primary font-medium">support@bloumcash.tg</p>
+                <a href={`mailto:${config.support_email}`} className="text-primary font-medium hover:underline">
+                  {config.support_email}
+                </a>
               </div>
               <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-                <h3 className="font-bold text-foreground mb-2">Téléphone</h3>
-                <p className="text-primary font-medium">+228 XX XX XX XX</p>
+                <h3 className="font-bold text-foreground mb-2">WhatsApp</h3>
+                <p className="text-primary font-medium">{config.whatsapp_number}</p>
               </div>
               <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
                 <h3 className="font-bold text-foreground mb-2">Horaires du support</h3>
                 <p className="text-muted-foreground">Lundi – Dimanche : 8h – 22h</p>
               </div>
-              <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-                <h3 className="font-bold text-foreground mb-4">Réseaux sociaux</h3>
-                <div className="flex gap-4">
-                  {[FaFacebook, FaInstagram, FaTwitter].map((Icon, i) => (
-                    <a key={i} href="#" className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all">
-                      <Icon size={18} />
-                    </a>
-                  ))}
+              {activeSocials.length > 0 && (
+                <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                  <h3 className="font-bold text-foreground mb-4">Réseaux sociaux</h3>
+                  <div className="flex gap-4">
+                    {activeSocials.map((key) => {
+                      const Icon = SOCIAL_ICONS[key];
+                      const href = config[`${key}_url` as keyof typeof config] as string;
+                      return (
+                        <a
+                          key={key}
+                          href={href !== "#" ? href : undefined}
+                          target={href !== "#" ? "_blank" : undefined}
+                          rel="noopener noreferrer"
+                          className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all"
+                        >
+                          <Icon size={18} />
+                        </a>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </motion.div>
           </div>
         </div>

@@ -1,7 +1,9 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { useLocation } from "wouter";
 import logoUrl from "@assets/LOGO_512x512.jpg_1780861295653.png";
+import { useSiteConfig } from "@/contexts/SiteConfigContext";
 
 const footerLinks = {
   Produit: [
@@ -22,15 +24,22 @@ const footerLinks = {
   ],
 };
 
-const socials = [
-  { icon: FaFacebook, href: "#" },
-  { icon: FaInstagram, href: "#" },
-  { icon: FaTwitter, href: "#" },
-  { icon: FaLinkedin, href: "#" },
-  { icon: FaYoutube, href: "#" },
-];
+const SOCIAL_ICONS: Record<string, typeof FaFacebook> = {
+  facebook: FaFacebook,
+  instagram: FaInstagram,
+  twitter: FaTwitter,
+  linkedin: FaLinkedin,
+  youtube: FaYoutube,
+};
 
 export default function Footer() {
+  const { config } = useSiteConfig();
+  const [, setLocation] = useLocation();
+
+  const activeSocials = ["facebook", "instagram", "twitter", "linkedin", "youtube"].filter(
+    (k) => config[`${k}_enabled` as keyof typeof config] === "true"
+  );
+
   return (
     <footer className="bg-[#1a1a5e] text-white pt-20 pb-10">
       <div className="container mx-auto px-4 md:px-6">
@@ -79,18 +88,30 @@ export default function Footer() {
             <p className="text-blue-200/60 text-sm">
               © 2026 Bloum Cash. Tous droits réservés.
             </p>
+            <button
+              onClick={() => setLocation("/admin")}
+              className="inline-block w-1.5 h-1.5 rounded-full bg-white/10 hover:bg-white/30 transition-colors mt-2 cursor-pointer"
+              aria-hidden="true"
+              title=""
+            />
           </div>
           <div className="flex items-center gap-3">
-            {socials.map(({ icon: Icon, href }, i) => (
-              <motion.a
-                key={i}
-                href={href}
-                whileHover={{ scale: 1.15, backgroundColor: "rgba(59,130,246,1)" }}
-                className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-blue-200 hover:text-white transition-colors"
-              >
-                <Icon size={17} />
-              </motion.a>
-            ))}
+            {activeSocials.map((key) => {
+              const Icon = SOCIAL_ICONS[key];
+              const href = config[`${key}_url` as keyof typeof config] as string;
+              return (
+                <motion.a
+                  key={key}
+                  href={href === "#" ? undefined : href}
+                  target={href !== "#" ? "_blank" : undefined}
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.15, backgroundColor: "rgba(59,130,246,1)" }}
+                  className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-blue-200 hover:text-white transition-colors"
+                >
+                  <Icon size={17} />
+                </motion.a>
+              );
+            })}
           </div>
         </div>
 

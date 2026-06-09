@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { AlertTriangle, ShieldAlert, Info, FileText } from "lucide-react";
 import PageLayout from "@/components/PageLayout";
+import { useSiteConfig } from "@/contexts/SiteConfigContext";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 22 },
@@ -10,6 +11,7 @@ const fadeUp = (delay = 0) => ({
 });
 
 export default function Conditions() {
+  const { config } = useSiteConfig();
   return (
     <PageLayout>
       {/* Hero */}
@@ -130,7 +132,7 @@ export default function Conditions() {
             {
               num: "9",
               title: "Confidentialité et protection des données personnelles",
-              content: `Le traitement de vos données personnelles est régi par notre Politique de Confidentialité, disponible à l'adresse /politique-de-confidentialite. Conformément aux réglementations applicables sur la protection des données, vous disposez de droits d'accès, de rectification et de suppression de vos données. Ces droits s'exercent via notre email dédié : privacy@bloumcash.com.`,
+              content: `Le traitement de vos données personnelles est régi par notre Politique de Confidentialité, disponible à l'adresse /politique-de-confidentialite. Conformément aux réglementations applicables sur la protection des données, vous disposez de droits d'accès, de rectification et de suppression de vos données. Ces droits s'exercent via notre email dédié : ${config.privacy_email}.`,
             },
             {
               num: "10",
@@ -167,8 +169,8 @@ export default function Conditions() {
             <p className="text-muted-foreground text-sm mb-3">
               Notre équipe juridique est disponible pour répondre à vos interrogations.
             </p>
-            <a href="mailto:legal@bloumcash.com" className="text-primary font-bold hover:underline text-sm">
-              legal@bloumcash.com
+            <a href={`mailto:${config.legal_email}`} className="text-primary font-bold hover:underline text-sm">
+              {config.legal_email}
             </a>
             <span className="text-muted-foreground mx-3">·</span>
             <a href="/contact" className="text-primary font-bold hover:underline text-sm">

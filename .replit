@@ -29,7 +29,7 @@ outputType = "webview"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "PORT=5000 BASE_PATH=/ pnpm --filter @workspace/bloum-cash run dev"
+args = "(PORT=3001 pnpm --filter @workspace/api-server run dev &) && PORT=5000 BASE_PATH=/ pnpm --filter @workspace/bloum-cash run dev"
 waitForPort = 5000
 
 [agent]
@@ -45,12 +45,12 @@ localPort = 3000
 externalPort = 3001
 
 [[ports]]
-localPort = 5000
-externalPort = 5000
+localPort = 3001
+externalPort = 3002
 
 [[ports]]
-localPort = 8080
-externalPort = 8080
+localPort = 5000
+externalPort = 80
 
 [[ports]]
 localPort = 8081
@@ -59,3 +59,12 @@ externalPort = 80
 [[ports]]
 localPort = 18544
 externalPort = 3000
+
+[userenv]
+
+[userenv.shared]
+JWT_SECRET = "1973dfae5ec8a33eb55125c1d89c4fef8fd7ff5559eb60983dd8c312bbc6c034"
+API_PORT = "3001"
+
+[nix]
+channel = "stable-25_05"

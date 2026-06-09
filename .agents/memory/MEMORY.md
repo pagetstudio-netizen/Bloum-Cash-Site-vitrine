@@ -1,0 +1,1 @@
+- [Admin panel architecture](admin-panel.md) — backend API on port 3001 + Vite proxy; workflow runs both services in one command
