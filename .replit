@@ -63,10 +63,8 @@ externalPort = 3000
 [userenv]
 
 [userenv.shared]
-JWT_SECRET = "1973dfae5ec8a33eb55125c1d89c4fef8fd7ff5559eb60983dd8c312bbc6c034"
 API_PORT = "3001"
-TELEGRAM_BOT_TOKEN = "8971087865:AAHuA3j7fwb9EUCFOAmP4myw9NZmhH9UToQ"
-SUPABASE_DATABASE_URL = "postgresql://postgres.dtnyxkuzjbwyqyyooutb:qdhHvceMFn6xNpGA@aws-1-eu-central-1.pooler.supabase.com:6543/postgres"
+NODE_ENV = "development"
 
 [nix]
 channel = "stable-25_05"
