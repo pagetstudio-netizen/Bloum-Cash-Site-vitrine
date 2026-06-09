@@ -1,1 +1,3 @@
 - [Admin panel architecture](admin-panel.md) — backend API on port 3001 + Vite proxy; workflow runs both services in one command
+- [Supabase DB connection](supabase-db.md) — DATABASE_URL est runtime-managed par Replit, utiliser SUPABASE_DATABASE_URL à la place; db/src/index.ts préfère SUPABASE_DATABASE_URL
+- [Admin auto-setup on start](admin-setup.md) — src/lib/setup.ts s'exécute au démarrage: crée tables si absentes, ALTER COLUMN pour cols manquantes, seed compte admin

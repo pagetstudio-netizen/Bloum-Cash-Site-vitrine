@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import router from "./routes";
 import { logger } from "./lib/logger";
 import { initTelegramBot } from "./services/telegram";
+import { runSetup } from "./lib/setup";
 
 const app: Express = express();
 
@@ -47,6 +48,7 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+runSetup();
 initTelegramBot();
 
 export default app;
