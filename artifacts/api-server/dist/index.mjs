@@ -109992,6 +109992,7 @@ function rejectLargePayloads(req, res, next) {
 }
 
 // src/app.ts
+process.env.NODE_ENV = (process.env.NODE_ENV ?? "development").toLowerCase();
 var app = (0, import_express6.default)();
 app.set("trust proxy", 1);
 app.use(removeStackHeaders);

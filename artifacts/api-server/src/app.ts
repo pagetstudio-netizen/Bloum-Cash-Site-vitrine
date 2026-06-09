@@ -18,6 +18,9 @@ import {
 } from "./middleware/security";
 import { strictRateLimit, configRateLimit } from "./middleware/security";
 
+// Normalise NODE_ENV — Plesk peut envoyer "Production" (majuscule)
+process.env.NODE_ENV = (process.env.NODE_ENV ?? "development").toLowerCase();
+
 const app: Express = express();
 
 // ─── 0. Faire confiance au proxy Plesk/Passenger/Nginx ────────────────────────
