@@ -86,7 +86,7 @@ export default function Header() {
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
             <img src={logoUrl} alt="Bloum Cash Logo" className="w-10 h-10 rounded-xl" />
-            <span className="text-xl font-bold text-primary tracking-tight">Bloum Cash</span>
+            <span className="text-xl font-bold text-primary tracking-tight whitespace-nowrap">Bloum Cash</span>
           </motion.div>
         </Link>
 

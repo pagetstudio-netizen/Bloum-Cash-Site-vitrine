@@ -172,7 +172,7 @@ export default function Contact() {
                           href={href !== "#" ? href : undefined}
                           target={href !== "#" ? "_blank" : undefined}
                           rel="noopener noreferrer"
-                          className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all"
+                          className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all"
                         >
                           <Icon size={18} />
                         </a>

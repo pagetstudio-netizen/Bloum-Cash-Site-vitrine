@@ -5,7 +5,7 @@ import lockIcon from "@assets/mine-mod-change-pwd-D4tL_Aft_1780938124611.png";
 
 export default function Security() {
   return (
-    <section id="securite" className="py-24 bg-blue-50/50 overflow-hidden">
+    <section id="securite" className="py-24 bg-blue-50 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 xl:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20 items-center">
 
