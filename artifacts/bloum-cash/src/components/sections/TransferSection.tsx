@@ -78,7 +78,7 @@ export default function TransferSection() {
             <div className="absolute inset-0 bg-blue-100/40 rounded-3xl blur-2xl scale-95" />
             <motion.img
               animate={{ y: [0, -8, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" as const }}
               src={transferImg}
               alt="Transfert sécurisé TMoney Moov Money"
               className="relative z-10 w-full object-contain drop-shadow-xl rounded-2xl"
@@ -94,7 +94,7 @@ export default function TransferSection() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.12, duration: 0.5, ease: "easeOut" }}
+              transition={{ delay: i * 0.12, duration: 0.5, ease: "easeOut" as const }}
               whileHover={{ y: -6, boxShadow: "0 16px 40px rgba(26,26,219,0.12)" }}
               className="bg-gradient-to-br from-blue-50 to-white border border-blue-100 rounded-2xl p-6 text-center shadow-sm cursor-default"
             >

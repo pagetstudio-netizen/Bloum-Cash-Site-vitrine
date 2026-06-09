@@ -1,6 +1,15 @@
 import app from "./app";
 import { logger } from "./lib/logger";
 
+// Global handlers — prevent unhandled rejections from crashing the process
+process.on("uncaughtException", (err) => {
+  logger.error({ err }, "uncaughtException — process kept alive");
+});
+
+process.on("unhandledRejection", (reason) => {
+  logger.error({ reason }, "unhandledRejection — process kept alive");
+});
+
 const rawPort = process.env["PORT"];
 
 if (!rawPort) {

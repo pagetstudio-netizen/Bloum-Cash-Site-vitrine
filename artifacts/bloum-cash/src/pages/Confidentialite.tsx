@@ -8,7 +8,7 @@ const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
-  transition: { delay, duration: 0.5, ease: "easeOut" },
+  transition: { delay, duration: 0.5, ease: "easeOut" as const },
 });
 
 const principles = [

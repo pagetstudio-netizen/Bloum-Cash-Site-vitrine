@@ -36,7 +36,7 @@ function FaqItem({ q, a, index }: { q: string; a: string; index: number }) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            transition={{ duration: 0.3, ease: "easeOut" as const }}
           >
             <div className="px-6 pb-6 text-muted-foreground leading-relaxed border-t border-slate-100 pt-4 bg-white">
               {a}

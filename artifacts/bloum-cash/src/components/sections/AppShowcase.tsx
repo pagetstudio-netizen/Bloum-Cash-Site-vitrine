@@ -64,7 +64,7 @@ export default function AppShowcase() {
           >
             <motion.div
               animate={{ y: [0, -14, 0] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" as const }}
               className="relative"
             >
               {/* Glow behind phone */}

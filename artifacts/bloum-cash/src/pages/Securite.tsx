@@ -86,7 +86,7 @@ export default function Securite() {
                 <div className="absolute inset-0 bg-blue-200/30 rounded-full blur-[60px]" />
                 <motion.img
                   animate={{ y: [0, -12, 0] }}
-                  transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                  transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" as const }}
                   src={securityImage}
                   alt="Sécurité Bloum Cash"
                   className="relative z-10 max-w-sm w-full object-contain drop-shadow-2xl"

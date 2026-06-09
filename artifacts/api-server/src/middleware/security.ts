@@ -32,8 +32,8 @@ export const securityHeaders = helmet({
 
 // ─── Rate limiter global (toutes les routes /api) ─────────────────────────────
 export const globalRateLimit = rateLimit({
-  windowMs: 15 * 60 * 1000,  // 15 minutes
-  max: 200,                    // max 200 requêtes par fenêtre
+  windowMs: 15 * 60 * 1000,
+  max: 200,
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: "Trop de requêtes. Réessayez dans quelques minutes." },
@@ -69,10 +69,11 @@ const BAD_BOTS = [
   "claudebot", "google-extended", "ccbot",
 ];
 
-export function blockBadBots(req: Request, res: Response, next: NextFunction) {
+export function blockBadBots(req: Request, res: Response, next: NextFunction): void {
   const ua = (req.headers["user-agent"] ?? "").toLowerCase();
   if (!ua || BAD_BOTS.some((bot) => ua.includes(bot))) {
-    return res.status(403).json({ error: "Accès refusé" });
+    res.status(403).json({ error: "Accès refusé" });
+    return;
   }
   next();
 }
@@ -108,16 +109,17 @@ const BLOCKED_PATHS = [
   /\/xmlrpc\.php/i,
 ];
 
-export function blockSensitivePaths(req: Request, res: Response, next: NextFunction) {
+export function blockSensitivePaths(req: Request, res: Response, next: NextFunction): void {
   const url = req.path.toLowerCase();
   if (BLOCKED_PATHS.some((pattern) => pattern.test(url))) {
-    return res.status(403).json({ error: "Accès refusé" });
+    res.status(403).json({ error: "Accès refusé" });
+    return;
   }
   next();
 }
 
 // ─── Suppression des en-têtes qui révèlent la stack ──────────────────────────
-export function removeStackHeaders(_req: Request, res: Response, next: NextFunction) {
+export function removeStackHeaders(_req: Request, res: Response, next: NextFunction): void {
   res.removeHeader("X-Powered-By");
   res.removeHeader("Server");
   next();
@@ -125,18 +127,20 @@ export function removeStackHeaders(_req: Request, res: Response, next: NextFunct
 
 // ─── Validation de la méthode HTTP ───────────────────────────────────────────
 const ALLOWED_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"];
-export function validateMethod(req: Request, res: Response, next: NextFunction) {
+export function validateMethod(req: Request, res: Response, next: NextFunction): void {
   if (!ALLOWED_METHODS.includes(req.method)) {
-    return res.status(405).json({ error: "Méthode non autorisée" });
+    res.status(405).json({ error: "Méthode non autorisée" });
+    return;
   }
   next();
 }
 
 // ─── Limite la taille des corps de requête ───────────────────────────────────
-export function rejectLargePayloads(req: Request, res: Response, next: NextFunction) {
+export function rejectLargePayloads(req: Request, res: Response, next: NextFunction): void {
   const contentLength = parseInt(req.headers["content-length"] ?? "0", 10);
   if (contentLength > 50_000) {
-    return res.status(413).json({ error: "Requête trop volumineuse" });
+    res.status(413).json({ error: "Requête trop volumineuse" });
+    return;
   }
   next();
 }

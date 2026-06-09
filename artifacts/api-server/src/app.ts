@@ -26,9 +26,16 @@ app.use(removeStackHeaders);
 // ─── 2. En-têtes de sécurité HTTP (Helmet) ───────────────────────────────────
 app.use(securityHeaders);
 
-// ─── 3. CORS restreint : uniquement le domaine de production ─────────────────
+// ─── 3. CORS restreint : domaines de production ───────────────────────────────
+// ALLOWED_ORIGINS permet d'ajouter des domaines supplémentaires via variable d'env
+// ex: ALLOWED_ORIGINS=https://wendysapp.sbs,https://www.wendysapp.sbs
+const extraOrigins = (process.env.ALLOWED_ORIGINS ?? "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
 const allowedOrigins = process.env.NODE_ENV === "production"
-  ? ["https://bloumcash.com", "https://www.bloumcash.com"]
+  ? ["https://bloumcash.com", "https://www.bloumcash.com", ...extraOrigins]
   : [/localhost/, /127\.0\.0\.1/, /replit\.dev/, /replit\.app/];
 
 app.use(cors({

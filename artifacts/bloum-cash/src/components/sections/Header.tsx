@@ -18,9 +18,9 @@ const mobileMenuVariants = {
     opacity: 1,
     height: "auto",
     y: 0,
-    transition: { duration: 0.35, ease: "easeOut", staggerChildren: 0.07, delayChildren: 0.05 },
+    transition: { duration: 0.35, ease: "easeOut" as const, staggerChildren: 0.07, delayChildren: 0.05 },
   },
-  exit: { opacity: 0, height: 0, y: -10, transition: { duration: 0.25, ease: "easeIn" } },
+  exit: { opacity: 0, height: 0, y: -10, transition: { duration: 0.25, ease: "easeIn" as const } },
 };
 
 const mobileItemVariants = {
@@ -50,7 +50,7 @@ function NavLink({ label, href }: { label: string; href: string }) {
             rest: { width: isActive ? "100%" : "0%" },
             hover: { width: "100%" },
           }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
+          transition={{ duration: 0.25, ease: "easeOut" as const }}
         />
       </motion.span>
     </Link>
@@ -71,7 +71,7 @@ export default function Header() {
     <motion.header
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: "easeOut" as const }}
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-white/90 backdrop-blur-md border-b border-border shadow-sm py-3"

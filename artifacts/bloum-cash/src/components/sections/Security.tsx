@@ -66,7 +66,7 @@ export default function Security() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-blue-200/40 rounded-full blur-[60px] pointer-events-none" />
             <motion.div
               animate={{ y: [0, -12, 0] }}
-              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+              transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" as const }}
               className="relative z-10 max-w-sm w-full"
             >
               <img

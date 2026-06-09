@@ -5,38 +5,42 @@ export interface AdminRequest extends Request {
   admin?: { adminId: string; phase: string; email: string };
 }
 
-export function requireAdmin(req: AdminRequest, res: Response, next: NextFunction) {
+export function requireAdmin(req: AdminRequest, res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Non autorisé" });
+    res.status(401).json({ error: "Non autorisé" });
+    return;
   }
   const token = authHeader.slice(7);
   try {
     const payload = verifyToken(token);
     if (payload.phase !== "admin") {
-      return res.status(401).json({ error: "Token invalide" });
+      res.status(401).json({ error: "Token invalide" });
+      return;
     }
     req.admin = payload;
     next();
   } catch {
-    return res.status(401).json({ error: "Session expirée, veuillez vous reconnecter" });
+    res.status(401).json({ error: "Session expirée, veuillez vous reconnecter" });
   }
 }
 
-export function requirePreAuth(req: AdminRequest, res: Response, next: NextFunction) {
+export function requirePreAuth(req: AdminRequest, res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Non autorisé" });
+    res.status(401).json({ error: "Non autorisé" });
+    return;
   }
   const token = authHeader.slice(7);
   try {
     const payload = verifyToken(token);
     if (payload.phase !== "pre-auth") {
-      return res.status(401).json({ error: "Token invalide" });
+      res.status(401).json({ error: "Token invalide" });
+      return;
     }
     req.admin = payload;
     next();
   } catch {
-    return res.status(401).json({ error: "Session expirée" });
+    res.status(401).json({ error: "Session expirée" });
   }
 }

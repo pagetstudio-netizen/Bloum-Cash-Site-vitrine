@@ -40,12 +40,11 @@ export function initTelegramBot() {
   }
 
   try {
-    bot = new TelegramBot(token, { polling: { interval: 1000, autoStart: true } });
+    bot = new TelegramBot(token, { polling: { interval: 2000, autoStart: true } });
 
     bot.on("message", async (msg) => {
       const text = (msg.text || "").toLowerCase().trim();
       const chatId = msg.chat.id;
-      const chatType = msg.chat.type;
 
       if (
         text.includes("salut") &&
@@ -61,13 +60,23 @@ export function initTelegramBot() {
             `📌 Ce groupe (*${groupName}*) a été enregistré comme destinataire des notifications de contact.\n\n` +
             `Désormais, chaque message envoyé via le formulaire de contact du site sera transmis ici automatiquement.`,
             { parse_mode: "Markdown" }
-          );
+          ).catch((e) => {
+            console.error("[Telegram] Erreur sendMessage:", (e as Error).message);
+          });
         }
       }
     });
 
     bot.on("polling_error", (err) => {
-      console.error("[Telegram] Polling error:", (err as Error).message);
+      const msg = (err as Error).message ?? "";
+      // 409 Conflict = une autre instance tourne déjà ; on arrête ce polling proprement
+      if (msg.includes("409")) {
+        console.warn("[Telegram] 409 Conflict — une autre instance est active, polling arrêté.");
+        bot?.stopPolling().catch(() => {});
+        bot = null;
+        return;
+      }
+      console.error("[Telegram] Polling error:", msg);
     });
 
     bot.on("error", (err) => {

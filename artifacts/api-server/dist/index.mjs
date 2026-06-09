@@ -107923,35 +107923,39 @@ async function verifyPassword(password, hash) {
 function requireAdmin(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Non autoris\xE9" });
+    res.status(401).json({ error: "Non autoris\xE9" });
+    return;
   }
   const token = authHeader.slice(7);
   try {
     const payload = verifyToken(token);
     if (payload.phase !== "admin") {
-      return res.status(401).json({ error: "Token invalide" });
+      res.status(401).json({ error: "Token invalide" });
+      return;
     }
     req.admin = payload;
     next();
   } catch {
-    return res.status(401).json({ error: "Session expir\xE9e, veuillez vous reconnecter" });
+    res.status(401).json({ error: "Session expir\xE9e, veuillez vous reconnecter" });
   }
 }
 function requirePreAuth(req, res, next) {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith("Bearer ")) {
-    return res.status(401).json({ error: "Non autoris\xE9" });
+    res.status(401).json({ error: "Non autoris\xE9" });
+    return;
   }
   const token = authHeader.slice(7);
   try {
     const payload = verifyToken(token);
     if (payload.phase !== "pre-auth") {
-      return res.status(401).json({ error: "Token invalide" });
+      res.status(401).json({ error: "Token invalide" });
+      return;
     }
     req.admin = payload;
     next();
   } catch {
-    return res.status(401).json({ error: "Session expir\xE9e" });
+    res.status(401).json({ error: "Session expir\xE9e" });
   }
 }
 
@@ -108164,11 +108168,10 @@ function initTelegramBot() {
     return;
   }
   try {
-    bot = new import_node_telegram_bot_api.default(token, { polling: { interval: 1e3, autoStart: true } });
+    bot = new import_node_telegram_bot_api.default(token, { polling: { interval: 2e3, autoStart: true } });
     bot.on("message", async (msg) => {
       const text2 = (msg.text || "").toLowerCase().trim();
       const chatId = msg.chat.id;
-      const chatType = msg.chat.type;
       if (text2.includes("salut") && text2.includes("toi") && text2.includes("bot")) {
         const saved = await saveChatId(chatId);
         if (saved) {
@@ -108181,12 +108184,22 @@ function initTelegramBot() {
 
 D\xE9sormais, chaque message envoy\xE9 via le formulaire de contact du site sera transmis ici automatiquement.`,
             { parse_mode: "Markdown" }
-          );
+          ).catch((e) => {
+            console.error("[Telegram] Erreur sendMessage:", e.message);
+          });
         }
       }
     });
     bot.on("polling_error", (err) => {
-      console.error("[Telegram] Polling error:", err.message);
+      const msg = err.message ?? "";
+      if (msg.includes("409")) {
+        console.warn("[Telegram] 409 Conflict \u2014 une autre instance est active, polling arr\xEAt\xE9.");
+        bot?.stopPolling().catch(() => {
+        });
+        bot = null;
+        return;
+      }
+      console.error("[Telegram] Polling error:", msg);
     });
     bot.on("error", (err) => {
       console.error("[Telegram] Error:", err.message);
@@ -109861,9 +109874,7 @@ var securityHeaders = helmet({
 });
 var globalRateLimit = rate_limit_default({
   windowMs: 15 * 60 * 1e3,
-  // 15 minutes
   max: 200,
-  // max 200 requêtes par fenêtre
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: "Trop de requ\xEAtes. R\xE9essayez dans quelques minutes." },
@@ -109916,7 +109927,8 @@ var BAD_BOTS = [
 function blockBadBots(req, res, next) {
   const ua = (req.headers["user-agent"] ?? "").toLowerCase();
   if (!ua || BAD_BOTS.some((bot2) => ua.includes(bot2))) {
-    return res.status(403).json({ error: "Acc\xE8s refus\xE9" });
+    res.status(403).json({ error: "Acc\xE8s refus\xE9" });
+    return;
   }
   next();
 }
@@ -109952,7 +109964,8 @@ var BLOCKED_PATHS = [
 function blockSensitivePaths(req, res, next) {
   const url = req.path.toLowerCase();
   if (BLOCKED_PATHS.some((pattern) => pattern.test(url))) {
-    return res.status(403).json({ error: "Acc\xE8s refus\xE9" });
+    res.status(403).json({ error: "Acc\xE8s refus\xE9" });
+    return;
   }
   next();
 }
@@ -109964,14 +109977,16 @@ function removeStackHeaders(_req, res, next) {
 var ALLOWED_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"];
 function validateMethod(req, res, next) {
   if (!ALLOWED_METHODS.includes(req.method)) {
-    return res.status(405).json({ error: "M\xE9thode non autoris\xE9e" });
+    res.status(405).json({ error: "M\xE9thode non autoris\xE9e" });
+    return;
   }
   next();
 }
 function rejectLargePayloads(req, res, next) {
   const contentLength = parseInt(req.headers["content-length"] ?? "0", 10);
   if (contentLength > 5e4) {
-    return res.status(413).json({ error: "Requ\xEAte trop volumineuse" });
+    res.status(413).json({ error: "Requ\xEAte trop volumineuse" });
+    return;
   }
   next();
 }
@@ -109980,7 +109995,8 @@ function rejectLargePayloads(req, res, next) {
 var app = (0, import_express6.default)();
 app.use(removeStackHeaders);
 app.use(securityHeaders);
-var allowedOrigins = process.env.NODE_ENV === "production" ? ["https://bloumcash.com", "https://www.bloumcash.com"] : [/localhost/, /127\.0\.0\.1/, /replit\.dev/, /replit\.app/];
+var extraOrigins = (process.env.ALLOWED_ORIGINS ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+var allowedOrigins = process.env.NODE_ENV === "production" ? ["https://bloumcash.com", "https://www.bloumcash.com", ...extraOrigins] : [/localhost/, /127\.0\.0\.1/, /replit\.dev/, /replit\.app/];
 app.use((0, import_cors.default)({
   origin: allowedOrigins,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -110042,6 +110058,12 @@ initTelegramBot();
 var app_default = app;
 
 // src/index.ts
+process.on("uncaughtException", (err) => {
+  logger.error({ err }, "uncaughtException \u2014 process kept alive");
+});
+process.on("unhandledRejection", (reason) => {
+  logger.error({ reason }, "unhandledRejection \u2014 process kept alive");
+});
 var rawPort = process.env["PORT"];
 if (!rawPort) {
   throw new Error(

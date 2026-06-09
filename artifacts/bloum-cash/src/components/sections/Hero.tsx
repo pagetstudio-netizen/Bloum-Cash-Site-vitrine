@@ -53,7 +53,7 @@ function AnimatedDashedLines() {
               duration: durations[i],
               repeat: Infinity,
               repeatDelay: i * 0.6,
-              ease: "easeInOut",
+              ease: "easeInOut" as const,
               times: [0, 0.3, 0.7, 1],
             }}
           />
@@ -71,7 +71,7 @@ function AnimatedDashedLines() {
               duration: durations[pathIdx],
               repeat: Infinity,
               repeatDelay: pathIdx * 0.6,
-              ease: "easeInOut",
+              ease: "easeInOut" as const,
             }}
           >
             <animateMotion
@@ -109,14 +109,14 @@ export default function Hero() {
             <div className="relative w-full flex flex-col gap-4">
               <motion.div
                 animate={{ y: [0, -8, 0] }}
-                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" as const }}
                 className="rounded-2xl overflow-hidden shadow-xl border border-blue-100"
               >
                 <img src={banner1} alt="Bloum Cash - Transfert TMoney Moov Money au Togo" loading="lazy" width="400" height="250" className="w-full object-cover" />
               </motion.div>
               <motion.div
                 animate={{ y: [0, 8, 0] }}
-                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 0.5 }}
+                transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" as const, delay: 0.5 }}
                 className="rounded-2xl overflow-hidden shadow-xl border border-blue-100"
               >
                 <img src={banner2} alt="Bloum Cash - Envoyer argent TMoney Flooz Togo" loading="lazy" width="400" height="250" className="w-full object-cover" />
