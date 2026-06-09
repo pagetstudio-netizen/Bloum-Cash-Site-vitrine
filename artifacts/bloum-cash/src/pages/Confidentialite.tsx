@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ShieldCheck, Lock, Eye, Database, UserCheck, Mail, Globe, FileText } from "lucide-react";
+import { Seo } from "@/components/Seo";
 import PageLayout from "@/components/PageLayout";
 import { useSiteConfig } from "@/contexts/SiteConfigContext";
 
@@ -23,6 +24,11 @@ export default function Confidentialite() {
   const { config } = useSiteConfig();
   return (
     <PageLayout>
+      <Seo
+        title="Politique de confidentialité Bloum Cash | Protection de vos données"
+        description="Politique de confidentialité Bloum Cash : comment nous protégeons vos données personnelles lors de vos transferts d'argent au Togo."
+        canonical="https://bloumcash.com/confidentialite"
+      />
       {/* Hero */}
       <section className="py-20 bg-gradient-to-br from-primary/5 to-blue-50">
         <div className="container mx-auto px-4 md:px-6 text-center max-w-3xl">

@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { AlertTriangle, ShieldAlert, Info, FileText } from "lucide-react";
+import { Seo } from "@/components/Seo";
 import PageLayout from "@/components/PageLayout";
 import { useSiteConfig } from "@/contexts/SiteConfigContext";
 
@@ -14,6 +15,11 @@ export default function Conditions() {
   const { config } = useSiteConfig();
   return (
     <PageLayout>
+      <Seo
+        title="CGU Bloum Cash | Conditions Générales d'Utilisation"
+        description="Conditions générales d'utilisation de l'application Bloum Cash, service de transfert d'argent entre TMoney et Moov Money au Togo."
+        canonical="https://bloumcash.com/conditions"
+      />
       {/* Hero */}
       <section className="py-20 bg-gradient-to-br from-primary/5 to-blue-50">
         <div className="container mx-auto px-4 md:px-6 text-center max-w-3xl">

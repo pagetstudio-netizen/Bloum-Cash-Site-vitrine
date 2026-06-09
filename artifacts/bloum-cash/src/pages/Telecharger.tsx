@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Seo } from "@/components/Seo";
 import PageLayout from "@/components/PageLayout";
 import downloadIcon from "@assets/mine-mod-download-B1teb57W_(1)_1780938124567.png";
 import logoUrl from "@assets/LOGO_512x512.jpg_1780861295653.png";
@@ -17,6 +18,11 @@ const steps = [
 export default function Telecharger() {
   return (
     <PageLayout>
+      <Seo
+        title="Télécharger Bloum Cash | App de transfert d'argent iOS & Android Togo"
+        description="Téléchargez Bloum Cash gratuitement sur App Store et Google Play. Envoyez de l'argent entre TMoney et Moov Money en quelques secondes au Togo."
+        canonical="https://bloumcash.com/telecharger"
+      />
       <section className="py-20 bg-gradient-to-br from-primary to-blue-800 text-white">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <motion.div

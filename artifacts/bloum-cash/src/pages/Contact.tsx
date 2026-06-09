@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { Seo } from "@/components/Seo";
 import PageLayout from "@/components/PageLayout";
 import csIcon from "@assets/mine-mod-cs-DtBQ0Sp0_1780938124590.png";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from "react-icons/fa";
@@ -41,6 +42,11 @@ export default function Contact() {
 
   return (
     <PageLayout>
+      <Seo
+        title="Contact Bloum Cash | Nous contacter au Togo"
+        description="Contactez l'équipe Bloum Cash pour toute question sur vos transferts d'argent TMoney ou Moov Money au Togo. Réponse rapide garantie."
+        canonical="https://bloumcash.com/contact"
+      />
       <section className="py-20 bg-gradient-to-br from-primary/5 to-blue-50">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <motion.div

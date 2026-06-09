@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
+import { Seo } from "@/components/Seo";
 import PageLayout from "@/components/PageLayout";
 import securityImage from "@assets/20260608_153046_1780938046993.png";
 import lockIcon from "@assets/mine-mod-change-pwd-D4tL_Aft_1780938124611.png";
@@ -20,6 +21,11 @@ const guarantees = [
 export default function Securite() {
   return (
     <PageLayout>
+      <Seo
+        title="Sécurité Bloum Cash | Protection de vos transferts d'argent au Togo"
+        description="Bloum Cash protège vos transactions avec un chiffrement AES-256, une authentification à deux facteurs et une surveillance anti-fraude 24h/24."
+        canonical="https://bloumcash.com/securite"
+      />
       <section className="py-20 bg-gradient-to-br from-blue-50 to-white">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <motion.h1

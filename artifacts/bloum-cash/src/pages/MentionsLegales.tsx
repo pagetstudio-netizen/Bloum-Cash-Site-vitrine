@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Seo } from "@/components/Seo";
 import PageLayout from "@/components/PageLayout";
 import { useSiteConfig } from "@/contexts/SiteConfigContext";
 
@@ -54,6 +55,11 @@ export default function MentionsLegales() {
 
   return (
     <PageLayout>
+      <Seo
+        title="Mentions légales Bloum Cash | Ashtech Sarl — Togo"
+        description="Mentions légales de Bloum Cash, édité par Ashtech Sarl. Informations légales sur l'application de transfert d'argent au Togo."
+        canonical="https://bloumcash.com/mentions-legales"
+      />
       <section className="py-20 bg-gradient-to-br from-primary/5 to-blue-50">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <motion.h1

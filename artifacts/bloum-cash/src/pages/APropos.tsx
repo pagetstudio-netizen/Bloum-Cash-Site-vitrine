@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Seo } from "@/components/Seo";
 import PageLayout from "@/components/PageLayout";
 import aboutIcon from "@assets/mine-mod-aboutus-xnaBhqOq_1780938124633.png";
 import logoUrl from "@assets/LOGO_512x512.jpg_1780861295653.png";
@@ -24,6 +25,11 @@ const stats = [
 export default function APropos() {
   return (
     <PageLayout>
+      <Seo
+        title="À propos de Bloum Cash | Application de transfert d'argent au Togo"
+        description="Découvrez Bloum Cash, l'application togolaise de transfert d'argent entre TMoney et Moov Money. Notre histoire, nos valeurs et notre mission."
+        canonical="https://bloumcash.com/a-propos"
+      />
       <section className="py-20 bg-gradient-to-br from-primary/5 to-blue-50">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <motion.div
@@ -31,7 +37,7 @@ export default function APropos() {
             animate={{ opacity: 1, scale: 1 }}
             className="w-20 h-20 rounded-2xl bg-blue-50 flex items-center justify-center mx-auto mb-6"
           >
-            <img src={aboutIcon} alt="À propos" className="w-11 h-11 object-contain" style={{ filter: blueFilter }} />
+            <img src={aboutIcon} alt="À propos de Bloum Cash" loading="lazy" width="44" height="44" className="w-11 h-11 object-contain" style={{ filter: blueFilter }} />
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -56,7 +62,7 @@ export default function APropos() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-              <img src={logoUrl} alt="Bloum Cash" className="w-20 h-20 rounded-2xl mb-6 shadow-lg" />
+              <img src={logoUrl} alt="Logo Bloum Cash" loading="lazy" width="80" height="80" className="w-20 h-20 rounded-2xl mb-6 shadow-lg" />
               <h2 className="text-3xl font-bold text-foreground mb-6">Notre Histoire</h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
                 Bloum Cash est né d'une vision simple : permettre à chaque togolais d'envoyer de l'argent entre TMoney et Moov Money sans se déplacer, sans attente, en quelques secondes depuis son téléphone.
@@ -66,7 +72,7 @@ export default function APropos() {
               </p>
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="rounded-2xl overflow-hidden shadow-xl">
-              <img src={banner1} alt="Bloum Cash en action" className="w-full object-cover" />
+              <img src={banner1} alt="Bloum Cash en action - transfert d'argent au Togo" loading="lazy" width="600" height="400" className="w-full object-cover" />
             </motion.div>
           </div>
         </div>

@@ -112,14 +112,14 @@ export default function Hero() {
                 transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
                 className="rounded-2xl overflow-hidden shadow-xl border border-blue-100"
               >
-                <img src={banner1} alt="Bloum Cash - Transfert TMoney Moov" className="w-full object-cover" />
+                <img src={banner1} alt="Bloum Cash - Transfert TMoney Moov Money au Togo" loading="lazy" width="400" height="250" className="w-full object-cover" />
               </motion.div>
               <motion.div
                 animate={{ y: [0, 8, 0] }}
                 transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 0.5 }}
                 className="rounded-2xl overflow-hidden shadow-xl border border-blue-100"
               >
-                <img src={banner2} alt="Bloum Cash - TMoney Flooz" className="w-full object-cover" />
+                <img src={banner2} alt="Bloum Cash - Envoyer argent TMoney Flooz Togo" loading="lazy" width="400" height="250" className="w-full object-cover" />
               </motion.div>
             </div>
           </motion.div>
@@ -174,7 +174,9 @@ export default function Hero() {
               <div className="absolute inset-0 bg-primary/10 mix-blend-multiply z-10" />
               <img
                 src={heroImage}
-                alt="Person using phone in market"
+                alt="Personne utilisant Bloum Cash pour transférer de l'argent au marché au Togo"
+                width="480"
+                height="600"
                 className="w-full h-full object-cover object-center aspect-[4/5] hover:scale-105 transition-transform duration-700"
               />
             </div>

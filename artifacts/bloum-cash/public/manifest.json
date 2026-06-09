@@ -1,0 +1,36 @@
+{
+  "name": "Bloum Cash - Transfert d'argent au Togo",
+  "short_name": "Bloum Cash",
+  "description": "Application de transfert d'argent entre TMoney et Moov Money au Togo",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#1a1adb",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/android-icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ],
+  "categories": ["finance", "utilities"],
+  "screenshots": []
+}

@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { Seo } from "@/components/Seo";
 import PageLayout from "@/components/PageLayout";
 import { useSiteConfig } from "@/contexts/SiteConfigContext";
 import csIcon from "@assets/mine-mod-cs-DtBQ0Sp0_1780938124590.png";
@@ -79,6 +80,11 @@ export default function Support() {
 
   return (
     <PageLayout>
+      <Seo
+        title="Support Bloum Cash | Aide et FAQ transfert d'argent au Togo"
+        description="Centre d'assistance Bloum Cash : trouvez des réponses à vos questions sur les transferts TMoney et Moov Money, la sécurité et votre compte."
+        canonical="https://bloumcash.com/support"
+      />
       <section className="py-20 bg-gradient-to-br from-primary/5 to-blue-50">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <motion.div

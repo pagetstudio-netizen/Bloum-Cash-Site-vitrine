@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Seo } from "@/components/Seo";
 import PageLayout from "@/components/PageLayout";
 
 const fees = [
@@ -12,6 +13,11 @@ const fees = [
 export default function Tarifs() {
   return (
     <PageLayout>
+      <Seo
+        title="Tarifs Bloum Cash | Frais de transfert TMoney et Moov Money au Togo"
+        description="Tarifs transparents Bloum Cash : seulement 3,5% de frais sur vos transferts entre TMoney et Moov Money. Pas de frais cachés."
+        canonical="https://bloumcash.com/tarifs"
+      />
       {/* Hero */}
       <section className="py-20 bg-gradient-to-br from-primary/5 to-blue-50">
         <div className="container mx-auto px-4 md:px-6 text-center">

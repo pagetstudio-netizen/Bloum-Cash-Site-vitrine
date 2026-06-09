@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Seo } from "@/components/Seo";
 import PageLayout from "@/components/PageLayout";
 import tmoneyLogo from "@assets/ruU3bQe_1780861412620.png";
 import moovLogo from "@assets/op-moov_1780861412914.png";
@@ -62,6 +63,11 @@ const operators = [
 export default function Fonctionnalites() {
   return (
     <PageLayout>
+      <Seo
+        title="Fonctionnalités Bloum Cash | Transfert TMoney & Moov Money au Togo"
+        description="Découvrez toutes les fonctionnalités de Bloum Cash : transferts instantanés TMoney–Moov Money, sécurité renforcée, historique des transactions et bien plus."
+        canonical="https://bloumcash.com/fonctionnalites"
+      />
       {/* Hero */}
       <section className="py-20 bg-gradient-to-br from-primary/5 to-blue-50">
         <div className="container mx-auto px-4 md:px-6 text-center">

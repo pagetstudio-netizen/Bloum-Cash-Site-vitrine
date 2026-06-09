@@ -71,7 +71,10 @@ export default function Security() {
             >
               <img
                 src={securityImage}
-                alt="Sécurité Bloum Cash"
+                alt="Sécurité Bloum Cash - protection des transferts d'argent"
+                loading="lazy"
+                width="400"
+                height="400"
                 className="w-full object-contain drop-shadow-2xl"
               />
             </motion.div>

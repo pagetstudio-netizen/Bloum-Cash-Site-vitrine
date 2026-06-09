@@ -73,6 +73,9 @@ export default function Features() {
                 <img
                   src={feature.icon}
                   alt={feature.title}
+                  loading="lazy"
+                  width="36"
+                  height="36"
                   className="w-9 h-9 object-contain"
                   style={{ filter: blueFilter }}
                 />
@@ -82,7 +85,7 @@ export default function Features() {
               {feature.logos && (
                 <div className="flex items-center gap-4 mt-6">
                   {feature.logos.map((logo, i) => (
-                    <img key={i} src={logo} alt="Operator Logo" className="h-8 object-contain" />
+                    <img key={i} src={logo} alt={i === 0 ? "TMoney - opérateur mobile Togo" : "Moov Money - opérateur mobile Togo"} loading="lazy" width="80" height="32" className="h-8 object-contain" />
                   ))}
                 </div>
               )}

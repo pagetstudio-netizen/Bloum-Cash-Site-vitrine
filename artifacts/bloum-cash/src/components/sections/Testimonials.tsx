@@ -81,9 +81,12 @@ export default function Testimonials() {
               </p>
 
               <div className="flex flex-col items-center">
-                <img 
-                  src={avatarIcon} 
-                  alt={testimonials[currentIndex].name} 
+                <img
+                  src={avatarIcon}
+                  alt={testimonials[currentIndex].name}
+                  loading="lazy"
+                  width="64"
+                  height="64"
                   className="w-16 h-16 rounded-full mb-3 bg-white p-1 shadow-sm"
                 />
                 <h4 className="font-bold text-foreground text-lg">{testimonials[currentIndex].name}</h4>

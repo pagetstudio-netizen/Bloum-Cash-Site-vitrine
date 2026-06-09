@@ -71,7 +71,10 @@ export default function AppShowcase() {
               <div className="absolute inset-[-20px] bg-blue-300/20 rounded-[3rem] blur-2xl" />
               <img
                 src={appScreen}
-                alt="Bloum Cash Application"
+                alt="Bloum Cash Application - écran de transfert d'argent au Togo"
+                loading="lazy"
+                width="320"
+                height="640"
                 className="relative z-10 w-72 md:w-80 object-contain drop-shadow-[0_30px_60px_rgba(0,0,0,0.5)] rounded-[2.5rem]"
               />
             </motion.div>
