@@ -116071,20 +116071,33 @@ function initTelegramBot() {
       const chatId = msg.chat.id;
       const raw = (msg.text || "").trim();
       const text2 = raw.replace(/^(\/\w+)@\w+/, "$1");
-      if (!registerCode) return;
-      if (text2 === `/register ${registerCode}`) {
-        const saved = await saveChatId(chatId);
-        if (saved) {
-          const groupName = msg.chat.title || "ce chat";
+      console.log(`[Telegram] Message re\xE7u \u2014 chat: ${chatId}, texte: ${JSON.stringify(text2)}`);
+      if (text2 === "/ping" || text2 === "/start") {
+        await bot.sendMessage(chatId, "\u{1F7E2} Bot Bloum Cash op\xE9rationnel !").catch((e) => console.error("[Telegram] Erreur ping:", e.message));
+        return;
+      }
+      if (text2.startsWith("/register")) {
+        if (!registerCode) {
           await bot.sendMessage(
             chatId,
-            `\u2705 Enregistrement r\xE9ussi !
+            "\u26A0\uFE0F Variable TELEGRAM_REGISTER_CODE non configur\xE9e sur le serveur."
+          ).catch((e) => console.error("[Telegram] Erreur sendMessage:", e.message));
+          return;
+        }
+        if (text2 === `/register ${registerCode}`) {
+          const saved = await saveChatId(chatId);
+          if (saved) {
+            const groupName = msg.chat.title || "ce chat";
+            await bot.sendMessage(
+              chatId,
+              `\u2705 Enregistrement r\xE9ussi !
 
 \u{1F4CC} Ce groupe (*${groupName}*) recevra d\xE9sormais les notifications de contact du site Bloum Cash.`,
-            { parse_mode: "Markdown" }
-          ).catch((e) => {
-            console.error("[Telegram] Erreur sendMessage:", e.message);
-          });
+              { parse_mode: "Markdown" }
+            ).catch((e) => console.error("[Telegram] Erreur sendMessage:", e.message));
+          }
+        } else {
+          await bot.sendMessage(chatId, "\u274C Code incorrect.").catch((e) => console.error("[Telegram] Erreur sendMessage:", e.message));
         }
       }
     });

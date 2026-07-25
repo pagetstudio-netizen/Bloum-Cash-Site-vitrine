@@ -55,21 +55,38 @@ export function initTelegramBot() {
       const raw = (msg.text || "").trim();
       const text = raw.replace(/^(\/\w+)@\w+/, "$1");
 
-      // L'enregistrement nécessite le code secret exact (sensible à la casse)
-      if (!registerCode) return; // enregistrement désactivé si code non configuré
+      console.log(`[Telegram] Message reçu — chat: ${chatId}, texte: ${JSON.stringify(text)}`);
 
-      if (text === `/register ${registerCode}`) {
-        const saved = await saveChatId(chatId);
-        if (saved) {
-          const groupName = msg.chat.title || "ce chat";
-          await bot!.sendMessage(
-            chatId,
-            `✅ Enregistrement réussi !\n\n` +
-            `📌 Ce groupe (*${groupName}*) recevra désormais les notifications de contact du site Bloum Cash.`,
-            { parse_mode: "Markdown" }
-          ).catch((e) => {
-            console.error("[Telegram] Erreur sendMessage:", (e as Error).message);
-          });
+      // Commande /ping — toujours disponible pour tester si le bot est vivant
+      if (text === "/ping" || text === "/start") {
+        await bot!.sendMessage(chatId, "🟢 Bot Bloum Cash opérationnel !")
+          .catch((e) => console.error("[Telegram] Erreur ping:", (e as Error).message));
+        return;
+      }
+
+      // Enregistrement du groupe
+      if (text.startsWith("/register")) {
+        if (!registerCode) {
+          await bot!.sendMessage(chatId,
+            "⚠️ Variable TELEGRAM_REGISTER_CODE non configurée sur le serveur."
+          ).catch((e) => console.error("[Telegram] Erreur sendMessage:", (e as Error).message));
+          return;
+        }
+
+        if (text === `/register ${registerCode}`) {
+          const saved = await saveChatId(chatId);
+          if (saved) {
+            const groupName = msg.chat.title || "ce chat";
+            await bot!.sendMessage(
+              chatId,
+              `✅ Enregistrement réussi !\n\n` +
+              `📌 Ce groupe (*${groupName}*) recevra désormais les notifications de contact du site Bloum Cash.`,
+              { parse_mode: "Markdown" }
+            ).catch((e) => console.error("[Telegram] Erreur sendMessage:", (e as Error).message));
+          }
+        } else {
+          await bot!.sendMessage(chatId, "❌ Code incorrect.")
+            .catch((e) => console.error("[Telegram] Erreur sendMessage:", (e as Error).message));
         }
       }
     });
