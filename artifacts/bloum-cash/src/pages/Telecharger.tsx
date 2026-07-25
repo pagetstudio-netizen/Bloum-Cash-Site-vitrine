@@ -62,7 +62,7 @@ export default function Telecharger() {
               className="mt-6 flex justify-center"
             >
               <a
-                href={config.apk_url}
+                href="/api/dl/apk"
                 download
                 className="inline-flex items-center gap-3 bg-white text-[#1a1a5e] font-bold px-7 py-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
               >

@@ -12,7 +12,14 @@ import { signPreAuthToken, signAdminToken, verifyPassword } from "../lib/auth";
 import { requirePreAuth, requireAdmin, type AdminRequest } from "../middleware/adminAuth";
 
 const __dirname_here = path.dirname(fileURLToPath(import.meta.url));
-const UPLOADS_DIR = path.resolve(__dirname_here, "../../uploads/apk");
+// En dev  : import.meta.url → src/routes/admin.ts  → remonter 2 niveaux jusqu'à api-server/
+// En prod : esbuild bundle tout dans dist/index.mjs → remonter 1 niveau jusqu'à api-server/
+// On détecte l'environnement par le nom du dossier courant.
+const API_SERVER_ROOT =
+  path.basename(__dirname_here) === "dist"
+    ? path.resolve(__dirname_here, "..")          // prod : dist/ → api-server/
+    : path.resolve(__dirname_here, "../..");       // dev  : src/routes/ → api-server/
+const UPLOADS_DIR = path.join(API_SERVER_ROOT, "uploads", "apk");
 fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 
 const apkStorage = multer.diskStorage({

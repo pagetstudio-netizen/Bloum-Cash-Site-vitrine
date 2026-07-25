@@ -48,8 +48,12 @@ export function initTelegramBot() {
     const registerCode = process.env.TELEGRAM_REGISTER_CODE;
 
     bot.on("message", async (msg) => {
-      const text = (msg.text || "").trim();
       const chatId = msg.chat.id;
+
+      // Normaliser le texte : Telegram ajoute @BotName dans les groupes
+      // ex: "/register@Bloumcashvitrinebot CODE" → "/register CODE"
+      const raw = (msg.text || "").trim();
+      const text = raw.replace(/^(\/\w+)@\w+/, "$1");
 
       // L'enregistrement nécessite le code secret exact (sensible à la casse)
       if (!registerCode) return; // enregistrement désactivé si code non configuré
