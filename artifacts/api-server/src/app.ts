@@ -95,6 +95,17 @@ app.use("/api/config", configRateLimit);
 // ─── 11. Routes API ───────────────────────────────────────────────────────────
 app.use("/api", router);
 
+// ─── 11b. Fichiers uploadés (APK) — accessibles en dev ET en prod ─────────────
+{
+  const __dirname_here = path.dirname(fileURLToPath(import.meta.url));
+  const uploadsPath = path.resolve(__dirname_here, "../uploads");
+  app.use("/uploads", express.static(uploadsPath, {
+    setHeaders(res) {
+      res.setHeader("Content-Disposition", "attachment");
+    },
+  }));
+}
+
 // ─── 12. Fichiers statiques + SPA (production uniquement) ────────────────────
 if (process.env.NODE_ENV === "production") {
   const __dirname_prod = path.dirname(fileURLToPath(import.meta.url));

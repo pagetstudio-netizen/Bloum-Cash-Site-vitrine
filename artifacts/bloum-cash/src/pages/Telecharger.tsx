@@ -4,6 +4,8 @@ import PageLayout from "@/components/PageLayout";
 import downloadIcon from "@assets/mine-mod-download-B1teb57W_(1)_1780938124567.png";
 import logoUrl from "@assets/LOGO_512x512.jpg_1780861295653.png";
 import StoreButtons from "@/components/StoreButtons";
+import { useSiteConfig } from "@/contexts/SiteConfigContext";
+import { Download } from "lucide-react";
 
 const blueFilter =
   "brightness(0) saturate(100%) invert(17%) sepia(100%) saturate(7484%) hue-rotate(213deg) brightness(97%) contrast(103%)";
@@ -16,6 +18,9 @@ const steps = [
 ];
 
 export default function Telecharger() {
+  const { config } = useSiteConfig();
+  const apkEnabled = config.apk_enabled === "true";
+
   return (
     <PageLayout>
       <Seo
@@ -48,6 +53,31 @@ export default function Telecharger() {
             Gratuit, sans frais cachés. Disponible sur iOS et Android.
           </motion.p>
           <StoreButtons size="lg" center />
+
+          {apkEnabled && config.apk_url && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="mt-6 flex justify-center"
+            >
+              <a
+                href={config.apk_url}
+                download
+                className="inline-flex items-center gap-3 bg-white text-[#1a1a5e] font-bold px-7 py-4 rounded-2xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200"
+              >
+                <div className="w-9 h-9 rounded-xl bg-[#1a1a5e] flex items-center justify-center flex-shrink-0">
+                  <Download className="w-5 h-5 text-white" />
+                </div>
+                <div className="text-left">
+                  <p className="text-sm font-extrabold leading-none">{config.apk_label || "Télécharger l'APK"}</p>
+                  {config.apk_size && (
+                    <p className="text-xs text-slate-500 mt-0.5">Android direct · {config.apk_size}</p>
+                  )}
+                </div>
+              </a>
+            </motion.div>
+          )}
         </div>
       </section>
 

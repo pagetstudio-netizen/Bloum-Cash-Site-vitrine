@@ -26,6 +26,10 @@ const DEFAULT_CONFIG: Record<string, string> = {
   playstore_url: "#",
   playstore_label: "Google Play",
   playstore_state: "active",
+  apk_enabled: "false",
+  apk_url: "",
+  apk_label: "Télécharger l'APK (Android)",
+  apk_size: "",
 };
 
 router.get("/", async (_req, res) => {

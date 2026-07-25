@@ -136,7 +136,13 @@ export function validateMethod(req: Request, res: Response, next: NextFunction):
 }
 
 // ─── Limite la taille des corps de requête ───────────────────────────────────
+// Les uploads multipart (APK) sont gérés par multer avec sa propre limite.
 export function rejectLargePayloads(req: Request, res: Response, next: NextFunction): void {
+  const contentType = req.headers["content-type"] ?? "";
+  if (contentType.startsWith("multipart/form-data")) {
+    next();
+    return;
+  }
   const contentLength = parseInt(req.headers["content-length"] ?? "0", 10);
   if (contentLength > 50_000) {
     res.status(413).json({ error: "Requête trop volumineuse" });

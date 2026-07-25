@@ -22,6 +22,10 @@ export interface SiteConfig {
   playstore_url: string;
   playstore_label: string;
   playstore_state: string;
+  apk_enabled: string;
+  apk_url: string;
+  apk_label: string;
+  apk_size: string;
   transfer_fee_percent: string;
   min_transfer_amount: string;
   max_transfer_amount: string;
@@ -50,6 +54,10 @@ const DEFAULTS: SiteConfig = {
   playstore_url: "#",
   playstore_label: "Google Play",
   playstore_state: "active",
+  apk_enabled: "false",
+  apk_url: "",
+  apk_label: "Télécharger l'APK (Android)",
+  apk_size: "",
   transfer_fee_percent: "3,5",
   min_transfer_amount: "500",
   max_transfer_amount: "500 000",

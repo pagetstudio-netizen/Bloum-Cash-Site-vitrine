@@ -1,7 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { LogOut, Phone, Mail, Share2, Download, Check, AlertCircle, ChevronRight, Percent } from "lucide-react";
+import { LogOut, Phone, Mail, Share2, Download, Check, AlertCircle, ChevronRight, Percent, Trash2, Upload } from "lucide-react";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { useSiteConfig } from "@/contexts/SiteConfigContext";
 import logoUrl from "@assets/LOGO_512x512.jpg_1780861295653.png";
@@ -57,6 +57,15 @@ export default function AdminDashboard() {
     playstore_url: "#", playstore_label: "Google Play", playstore_state: "active",
   });
 
+  const [apk, setApk] = useState({
+    apk_enabled: "false",
+    apk_url: "",
+    apk_label: "Télécharger l'APK (Android)",
+    apk_size: "",
+  });
+  const [apkUploading, setApkUploading] = useState(false);
+  const [apkDeleting, setApkDeleting] = useState(false);
+
   const [fees, setFees] = useState({
     transfer_fee_percent: "3,5",
     min_transfer_amount: "500",
@@ -106,6 +115,12 @@ export default function AdminDashboard() {
         playstore_label: data.playstore_label || "Google Play",
         playstore_state: data.playstore_state || "active",
       });
+      setApk({
+        apk_enabled: data.apk_enabled || "false",
+        apk_url: data.apk_url || "",
+        apk_label: data.apk_label || "Télécharger l'APK (Android)",
+        apk_size: data.apk_size || "",
+      });
       setFees({
         transfer_fee_percent: data.transfer_fee_percent || "3,5",
         min_transfer_amount: data.min_transfer_amount || "500",
@@ -135,6 +150,57 @@ export default function AdminDashboard() {
       setSaveStatus("error");
       setTimeout(() => setSaveStatus("idle"), 3000);
     } finally { setSaving(false); }
+  };
+
+  const handleApkUpload = async (file: File) => {
+    setApkUploading(true);
+    setSaveStatus("idle");
+    const token = getToken();
+    const formData = new FormData();
+    formData.append("apk", file);
+    try {
+      const res = await fetch("/api/admin/apk-upload", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error ?? "Erreur upload");
+      }
+      const data = await res.json();
+      setApk((a) => ({ ...a, apk_url: data.url, apk_size: data.size }));
+      setSaveStatus("success");
+      refresh();
+      setTimeout(() => setSaveStatus("idle"), 3000);
+    } catch (e: any) {
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus("idle"), 3000);
+    } finally {
+      setApkUploading(false);
+    }
+  };
+
+  const handleApkDelete = async () => {
+    if (!confirm("Supprimer le fichier APK et désactiver le bouton ?")) return;
+    setApkDeleting(true);
+    const token = getToken();
+    try {
+      const res = await fetch("/api/admin/apk", {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!res.ok) throw new Error();
+      setApk({ apk_enabled: "false", apk_url: "", apk_label: apk.apk_label, apk_size: "" });
+      setSaveStatus("success");
+      refresh();
+      setTimeout(() => setSaveStatus("idle"), 3000);
+    } catch {
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus("idle"), 3000);
+    } finally {
+      setApkDeleting(false);
+    }
   };
 
   const logout = () => { localStorage.removeItem("adminToken"); setLocation("/admin"); };
@@ -305,6 +371,7 @@ export default function AdminDashboard() {
 
         {/* Téléchargement */}
         {tab === "download" && (
+          <>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center">
@@ -394,6 +461,19 @@ export default function AdminDashboard() {
               </motion.button>
             </div>
           </motion.div>
+
+          {/* APK direct */}
+          <ApkSection
+            apk={apk}
+            setApk={setApk}
+            uploading={apkUploading}
+            deleting={apkDeleting}
+            onUpload={handleApkUpload}
+            onDelete={handleApkDelete}
+            onSaveLabel={() => handleSave({ apk_label: apk.apk_label, apk_enabled: apk.apk_enabled })}
+            saving={saving}
+          />
+          </>
         )}
 
         {/* Frais & Tarifs */}
@@ -504,5 +584,120 @@ export default function AdminDashboard() {
         </div>
       </div>
     </div>
+  );
+}
+
+// ─── Composant section APK ────────────────────────────────────────────────────
+function ApkSection({
+  apk, setApk, uploading, deleting, onUpload, onDelete, onSaveLabel, saving,
+}: {
+  apk: { apk_enabled: string; apk_url: string; apk_label: string; apk_size: string };
+  setApk: React.Dispatch<React.SetStateAction<typeof apk>>;
+  uploading: boolean;
+  deleting: boolean;
+  onUpload: (file: File) => void;
+  onDelete: () => void;
+  onSaveLabel: () => void;
+  saving: boolean;
+}) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const enabled = apk.apk_enabled === "true";
+  const hasFile = !!apk.apk_url;
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6 bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 rounded-2xl bg-green-50 flex items-center justify-center">
+          <Download className="w-5 h-5 text-green-700" />
+        </div>
+        <div>
+          <h2 className="font-extrabold text-[#1a1a5e] text-lg">APK direct (Android)</h2>
+          <p className="text-slate-500 text-sm">Proposez le téléchargement direct du fichier APK sur la page /telecharger</p>
+        </div>
+      </div>
+
+      {/* Activer / désactiver */}
+      <div className={`rounded-2xl border p-4 mb-4 transition ${enabled ? "border-green-100 bg-green-50/30" : "border-slate-100 bg-slate-50"}`}>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className={`font-semibold text-sm ${enabled ? "text-green-700" : "text-slate-400"}`}>
+              Bouton APK {enabled ? "affiché sur le site" : "masqué"}
+            </p>
+            {enabled && !hasFile && (
+              <p className="text-xs text-amber-600 mt-0.5">⚠ Activé mais aucun APK importé — le bouton ne s'affichera pas</p>
+            )}
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-slate-500">{enabled ? "Actif" : "Désactivé"}</span>
+            <Toggle value={enabled} onChange={(v) => setApk((a) => ({ ...a, apk_enabled: v ? "true" : "false" }))} />
+          </div>
+        </div>
+      </div>
+
+      {/* Libellé du bouton */}
+      <div className="mb-4">
+        <label className="block text-xs font-semibold text-slate-600 mb-1.5">Libellé du bouton</label>
+        <input
+          type="text"
+          value={apk.apk_label}
+          onChange={(e) => setApk((a) => ({ ...a, apk_label: e.target.value }))}
+          placeholder="Télécharger l'APK (Android)"
+          className="w-full border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-[#1a1a5e]/25 transition text-slate-800 text-sm"
+        />
+      </div>
+
+      {/* Fichier APK actuel */}
+      {hasFile && (
+        <div className="mb-4 rounded-xl bg-blue-50 border border-blue-100 px-4 py-3 flex items-center justify-between gap-3">
+          <div>
+            <p className="text-sm font-semibold text-[#1a1a5e]">APK importé</p>
+            <p className="text-xs text-slate-500">{apk.apk_size && `${apk.apk_size} · `}
+              <a href={apk.apk_url} className="underline" target="_blank" rel="noreferrer">Télécharger</a>
+            </p>
+          </div>
+          <button
+            onClick={onDelete}
+            disabled={deleting}
+            className="flex items-center gap-1.5 text-red-600 hover:text-red-700 text-xs font-semibold bg-red-50 hover:bg-red-100 border border-red-100 px-3 py-2 rounded-xl transition disabled:opacity-50"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            {deleting ? "Suppression…" : "Supprimer"}
+          </button>
+        </div>
+      )}
+
+      {/* Upload */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".apk,.aab"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) { onUpload(file); e.target.value = ""; }
+        }}
+      />
+      <button
+        onClick={() => fileInputRef.current?.click()}
+        disabled={uploading}
+        className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-300 hover:border-[#1a1a5e] rounded-xl py-4 text-sm font-semibold text-slate-500 hover:text-[#1a1a5e] transition disabled:opacity-50"
+      >
+        <Upload className="w-4 h-4" />
+        {uploading ? "Import en cours…" : hasFile ? "Remplacer le fichier APK" : "Importer un fichier APK"}
+      </button>
+      <p className="text-xs text-slate-400 mt-2 text-center">Formats acceptés : .apk, .aab · Taille max : 200 MB</p>
+
+      <div className="mt-5 flex justify-end">
+        <motion.button
+          onClick={onSaveLabel}
+          disabled={saving}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="flex items-center gap-2 bg-[#1a1a5e] text-white font-bold px-6 py-3 rounded-full shadow hover:bg-[#14145a] transition disabled:opacity-60"
+        >
+          {saving ? "Enregistrement…" : <><Check className="w-4 h-4" /> Enregistrer</>}
+        </motion.button>
+      </div>
+    </motion.div>
   );
 }

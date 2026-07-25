@@ -1,11 +1,41 @@
 import { Router } from "express";
 import { authenticator } from "otplib";
 import QRCode from "qrcode";
+import multer from "multer";
+import path from "node:path";
+import fs from "node:fs";
+import { fileURLToPath } from "node:url";
 import { db } from "@workspace/db";
 import { adminUsersTable, siteConfigTable } from "@workspace/db/schema";
 import { eq } from "drizzle-orm";
 import { signPreAuthToken, signAdminToken, verifyPassword } from "../lib/auth";
 import { requirePreAuth, requireAdmin, type AdminRequest } from "../middleware/adminAuth";
+
+const __dirname_here = path.dirname(fileURLToPath(import.meta.url));
+const UPLOADS_DIR = path.resolve(__dirname_here, "../../uploads/apk");
+fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+
+const apkStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => cb(null, UPLOADS_DIR),
+  filename: (_req, file, cb) => {
+    const ext = path.extname(file.originalname) || ".apk";
+    cb(null, `bloum-cash${ext}`);
+  },
+});
+
+const apkUpload = multer({
+  storage: apkStorage,
+  limits: { fileSize: 200 * 1024 * 1024 }, // 200 MB
+  fileFilter: (_req, file, cb) => {
+    const allowed = [".apk", ".aab", ".zip"];
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (allowed.includes(ext) || file.mimetype === "application/vnd.android.package-archive") {
+      cb(null, true);
+    } else {
+      cb(new Error("Seuls les fichiers .apk/.aab sont acceptés"));
+    }
+  },
+});
 
 const router = Router();
 
@@ -31,6 +61,10 @@ const DEFAULT_CONFIG: Record<string, string> = {
   playstore_url: "#",
   playstore_label: "Google Play",
   playstore_state: "active",
+  apk_enabled: "false",
+  apk_url: "",
+  apk_label: "Télécharger l'APK (Android)",
+  apk_size: "",
 };
 
 router.post("/login", async (req, res) => {
@@ -122,6 +156,59 @@ router.get("/config", requireAdmin, async (_req, res) => {
     return res.json(config);
   } catch {
     return res.json(DEFAULT_CONFIG);
+  }
+});
+
+// ─── Upload APK ───────────────────────────────────────────────────────────────
+router.post("/apk-upload", requireAdmin, (req, res) => {
+  apkUpload.single("apk")(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ error: err.message ?? "Erreur upload" });
+    }
+    const file = (req as any).file;
+    if (!file) {
+      return res.status(400).json({ error: "Aucun fichier reçu" });
+    }
+    const apkUrl = `/uploads/apk/${file.filename}`;
+    const apkSize = (file.size / (1024 * 1024)).toFixed(1) + " MB";
+    // Persist url + size in site_config
+    try {
+      for (const [key, value] of [["apk_url", apkUrl], ["apk_size", apkSize]] as [string, string][]) {
+        const [existing] = await db.select().from(siteConfigTable).where(eq(siteConfigTable.key, key));
+        if (existing) {
+          await db.update(siteConfigTable).set({ value, updatedAt: new Date() }).where(eq(siteConfigTable.key, key));
+        } else {
+          await db.insert(siteConfigTable).values({ key, value });
+        }
+      }
+    } catch {
+      // non-fatal — file is uploaded
+    }
+    return res.json({ success: true, url: apkUrl, size: apkSize, filename: file.filename });
+  });
+});
+
+// ─── Supprimer APK ────────────────────────────────────────────────────────────
+router.delete("/apk", requireAdmin, async (_req, res) => {
+  try {
+    // Remove the physical file if it exists
+    const files = fs.readdirSync(UPLOADS_DIR).filter((f) => /\.(apk|aab|zip)$/i.test(f));
+    for (const f of files) {
+      fs.rmSync(path.join(UPLOADS_DIR, f), { force: true });
+    }
+    // Clear config keys
+    for (const key of ["apk_url", "apk_size", "apk_enabled"]) {
+      const [existing] = await db.select().from(siteConfigTable).where(eq(siteConfigTable.key, key));
+      const value = key === "apk_enabled" ? "false" : "";
+      if (existing) {
+        await db.update(siteConfigTable).set({ value, updatedAt: new Date() }).where(eq(siteConfigTable.key, key));
+      } else {
+        await db.insert(siteConfigTable).values({ key, value });
+      }
+    }
+    return res.json({ success: true });
+  } catch (err) {
+    return res.status(500).json({ error: "Erreur lors de la suppression" });
   }
 });
 
