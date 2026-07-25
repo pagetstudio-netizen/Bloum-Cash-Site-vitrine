@@ -42,23 +42,26 @@ export function initTelegramBot() {
   try {
     bot = new TelegramBot(token, { polling: { interval: 2000, autoStart: true } });
 
+    // Code secret requis pour enregistrer un groupe comme destinataire.
+    // Défini via la variable d'environnement TELEGRAM_REGISTER_CODE.
+    // Sans cette variable, l'enregistrement est désactivé.
+    const registerCode = process.env.TELEGRAM_REGISTER_CODE;
+
     bot.on("message", async (msg) => {
-      const text = (msg.text || "").toLowerCase().trim();
+      const text = (msg.text || "").trim();
       const chatId = msg.chat.id;
 
-      if (
-        text.includes("salut") &&
-        text.includes("toi") &&
-        text.includes("bot")
-      ) {
+      // L'enregistrement nécessite le code secret exact (sensible à la casse)
+      if (!registerCode) return; // enregistrement désactivé si code non configuré
+
+      if (text === `/register ${registerCode}`) {
         const saved = await saveChatId(chatId);
         if (saved) {
-          const groupName = msg.chat.title || "ce groupe";
+          const groupName = msg.chat.title || "ce chat";
           await bot!.sendMessage(
             chatId,
-            `✅ Bonjour ! Je suis bien le bot Bloum Cash.\n\n` +
-            `📌 Ce groupe (*${groupName}*) a été enregistré comme destinataire des notifications de contact.\n\n` +
-            `Désormais, chaque message envoyé via le formulaire de contact du site sera transmis ici automatiquement.`,
+            `✅ Enregistrement réussi !\n\n` +
+            `📌 Ce groupe (*${groupName}*) recevra désormais les notifications de contact du site Bloum Cash.`,
             { parse_mode: "Markdown" }
           ).catch((e) => {
             console.error("[Telegram] Erreur sendMessage:", (e as Error).message);

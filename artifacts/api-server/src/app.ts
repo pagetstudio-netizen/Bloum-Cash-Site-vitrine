@@ -100,8 +100,14 @@ app.use("/api", router);
   const __dirname_here = path.dirname(fileURLToPath(import.meta.url));
   const uploadsPath = path.resolve(__dirname_here, "../uploads");
   app.use("/uploads", express.static(uploadsPath, {
-    setHeaders(res) {
+    index: false,          // désactive le listing de répertoire
+    dotfiles: "deny",      // bloque les fichiers cachés (.env, etc.)
+    setHeaders(res, filePath) {
+      // Forcer le téléchargement — ne pas exécuter le fichier dans le navigateur
       res.setHeader("Content-Disposition", "attachment");
+      // Empêcher le navigateur d'interpréter le fichier comme du HTML ou JS
+      res.setHeader("X-Content-Type-Options", "nosniff");
+      res.setHeader("Content-Security-Policy", "default-src 'none'");
     },
   }));
 }

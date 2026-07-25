@@ -34,32 +34,42 @@ export async function runSetup() {
       );
     `);
 
-    // Seed default admin account if none exists
-    const { rowCount } = await client.query(
-      "SELECT 1 FROM admin_users WHERE email = $1",
-      ["Sendyapp228@gmail.com"]
-    );
+    // ── Compte admin ──────────────────────────────────────────────────────────
+    // Les identifiants sont lus depuis les variables d'environnement.
+    // Le mot de passe n'est JAMAIS réinitialisé automatiquement au démarrage :
+    // le compte est créé une seule fois ; après, l'admin gère ses credentials.
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD;
 
-    if (!rowCount || rowCount === 0) {
-      const passwordHash = await bcrypt.hash("AAbb11##", 12);
-      await client.query(
-        `INSERT INTO admin_users (email, password_hash, totp_enabled)
-         VALUES ($1, $2, false)
-         ON CONFLICT (email) DO NOTHING`,
-        ["Sendyapp228@gmail.com", passwordHash]
+    if (!adminEmail || !adminPassword) {
+      console.warn(
+        "[Setup] ⚠ ADMIN_EMAIL ou ADMIN_PASSWORD non définis — " +
+        "aucun compte admin ne sera créé automatiquement. " +
+        "Définissez ces variables d'environnement sur le serveur."
       );
-      console.log("[Setup] Compte admin créé : Sendyapp228@gmail.com ✓");
     } else {
-      // Make sure password is correct
-      const passwordHash = await bcrypt.hash("AAbb11##", 12);
-      await client.query(
-        `UPDATE admin_users SET password_hash = $1 WHERE email = $2`,
-        [passwordHash, "Sendyapp228@gmail.com"]
+      const { rowCount } = await client.query(
+        "SELECT 1 FROM admin_users WHERE email = $1",
+        [adminEmail]
       );
-      console.log("[Setup] Compte admin mis à jour ✓");
+
+      if (!rowCount || rowCount === 0) {
+        // Création initiale uniquement — jamais de mise à jour automatique
+        const passwordHash = await bcrypt.hash(adminPassword, 12);
+        await client.query(
+          `INSERT INTO admin_users (email, password_hash, totp_enabled)
+           VALUES ($1, $2, false)
+           ON CONFLICT (email) DO NOTHING`,
+          [adminEmail, passwordHash]
+        );
+        console.log(`[Setup] Compte admin créé : ${adminEmail} ✓`);
+      } else {
+        // Compte déjà présent — on ne touche jamais au mot de passe
+        console.log(`[Setup] Compte admin existant détecté : ${adminEmail} ✓`);
+      }
     }
 
-    console.log("[Setup] Base de données Supabase prête ✓");
+    console.log("[Setup] Base de données prête ✓");
   } catch (err) {
     console.error("[Setup] Erreur initialisation base :", err);
   } finally {

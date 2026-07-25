@@ -3,6 +3,7 @@ import healthRouter from "./health";
 import adminRouter from "./admin";
 import configRouter from "./config";
 import contactRouter from "./contact";
+import downloadRouter from "./download";
 
 const router: IRouter = Router();
 
@@ -10,5 +11,6 @@ router.use(healthRouter);
 router.use("/config", configRouter);
 router.use("/admin", adminRouter);
 router.use("/contact", contactRouter);
+router.use("/dl", downloadRouter);
 
 export default router;

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { LogOut, Phone, Mail, Share2, Download, Check, AlertCircle, ChevronRight, Percent, Trash2, Upload } from "lucide-react";
+import { LogOut, Phone, Mail, Share2, Download, Check, AlertCircle, ChevronRight, Percent, Trash2, Upload, Copy, Link } from "lucide-react";
 import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { useSiteConfig } from "@/contexts/SiteConfigContext";
 import logoUrl from "@assets/LOGO_512x512.jpg_1780861295653.png";
@@ -601,8 +601,29 @@ function ApkSection({
   saving: boolean;
 }) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [copied, setCopied] = useState(false);
   const enabled = apk.apk_enabled === "true";
   const hasFile = !!apk.apk_url;
+
+  const shareableLink = `${window.location.origin}/api/dl/apk`;
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(shareableLink);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // fallback for older browsers
+      const el = document.createElement("textarea");
+      el.value = shareableLink;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
+  };
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-6 bg-white rounded-3xl shadow-sm border border-slate-100 p-6 md:p-8">
@@ -663,6 +684,38 @@ function ApkSection({
             <Trash2 className="w-3.5 h-3.5" />
             {deleting ? "Suppression…" : "Supprimer"}
           </button>
+        </div>
+      )}
+
+      {/* Lien partageable */}
+      {hasFile && (
+        <div className="mb-4 rounded-xl border border-indigo-100 bg-indigo-50/60 px-4 py-3">
+          <div className="flex items-center gap-2 mb-2">
+            <Link className="w-4 h-4 text-[#1a1a5e]" />
+            <p className="text-sm font-semibold text-[#1a1a5e]">Lien de téléchargement direct</p>
+          </div>
+          <p className="text-xs text-slate-500 mb-2">
+            Partagez ce lien directement — les gens peuvent télécharger l'APK sans passer par le site.
+          </p>
+          <div className="flex items-center gap-2">
+            <code className="flex-1 bg-white border border-indigo-100 rounded-lg px-3 py-2 text-xs text-slate-700 truncate select-all">
+              {shareableLink}
+            </code>
+            <button
+              onClick={copyLink}
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition flex-shrink-0 ${
+                copied
+                  ? "bg-green-100 text-green-700 border border-green-200"
+                  : "bg-white text-[#1a1a5e] border border-indigo-200 hover:bg-indigo-100"
+              }`}
+            >
+              {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+              {copied ? "Copié !" : "Copier"}
+            </button>
+          </div>
+          <p className="text-xs text-amber-600 mt-2">
+            ⚠ Ce lien ne fonctionne que si le bouton APK est <strong>activé</strong> ci-dessus.
+          </p>
         </div>
       )}
 

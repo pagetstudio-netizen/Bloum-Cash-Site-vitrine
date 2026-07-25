@@ -23,16 +23,22 @@ const apkStorage = multer.diskStorage({
   },
 });
 
+const APK_ALLOWED_EXTENSIONS = [".apk", ".aab"];
+const APK_ALLOWED_MIMETYPES = [
+  "application/vnd.android.package-archive",
+  "application/octet-stream",
+];
+
 const apkUpload = multer({
   storage: apkStorage,
   limits: { fileSize: 200 * 1024 * 1024 }, // 200 MB
   fileFilter: (_req, file, cb) => {
-    const allowed = [".apk", ".aab", ".zip"];
     const ext = path.extname(file.originalname).toLowerCase();
-    if (allowed.includes(ext) || file.mimetype === "application/vnd.android.package-archive") {
+    const mime = file.mimetype.toLowerCase();
+    if (APK_ALLOWED_EXTENSIONS.includes(ext) && APK_ALLOWED_MIMETYPES.includes(mime)) {
       cb(null, true);
     } else {
-      cb(new Error("Seuls les fichiers .apk/.aab sont acceptés"));
+      cb(new Error("Seuls les fichiers .apk ou .aab sont acceptés"));
     }
   },
 });
@@ -212,19 +218,76 @@ router.delete("/apk", requireAdmin, async (_req, res) => {
   }
 });
 
+// Whitelist stricte des clés modifiables via le panel admin.
+// Toute clé absente de cette liste est silencieusement ignorée.
+const ALLOWED_CONFIG_KEYS = new Set([
+  "whatsapp_number",
+  "support_email",
+  "contact_email",
+  "legal_email",
+  "privacy_email",
+  "facebook_url", "facebook_enabled",
+  "instagram_url", "instagram_enabled",
+  "twitter_url", "twitter_enabled",
+  "linkedin_url", "linkedin_enabled",
+  "youtube_url", "youtube_enabled",
+  "appstore_url", "appstore_label", "appstore_state",
+  "playstore_url", "playstore_label", "playstore_state",
+  "apk_enabled", "apk_label",
+  "transfer_fee_percent",
+  "min_transfer_amount",
+  "max_transfer_amount",
+  "fee_notice_days",
+]);
+
+// Validateurs par clé — retournent true si la valeur est acceptable
+const CONFIG_VALIDATORS: Record<string, (v: string) => boolean> = {
+  apk_enabled: (v) => v === "true" || v === "false",
+  facebook_enabled: (v) => v === "true" || v === "false",
+  instagram_enabled: (v) => v === "true" || v === "false",
+  twitter_enabled: (v) => v === "true" || v === "false",
+  linkedin_enabled: (v) => v === "true" || v === "false",
+  youtube_enabled: (v) => v === "true" || v === "false",
+  appstore_state: (v) => ["active", "soon", "disabled"].includes(v),
+  playstore_state: (v) => ["active", "soon", "disabled"].includes(v),
+  support_email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || v === "",
+  contact_email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || v === "",
+  legal_email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || v === "",
+  privacy_email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) || v === "",
+  appstore_url: (v) => v === "#" || v === "" || /^https?:\/\/.+/.test(v),
+  playstore_url: (v) => v === "#" || v === "" || /^https?:\/\/.+/.test(v),
+  facebook_url: (v) => v === "#" || v === "" || /^https?:\/\/.+/.test(v),
+  instagram_url: (v) => v === "#" || v === "" || /^https?:\/\/.+/.test(v),
+  twitter_url: (v) => v === "#" || v === "" || /^https?:\/\/.+/.test(v),
+  linkedin_url: (v) => v === "#" || v === "" || /^https?:\/\/.+/.test(v),
+  youtube_url: (v) => v === "#" || v === "" || /^https?:\/\/.+/.test(v),
+};
+
 router.put("/config", requireAdmin, async (req, res) => {
   const updates: Record<string, string> = req.body;
-  if (!updates || typeof updates !== "object") {
+  if (!updates || typeof updates !== "object" || Array.isArray(updates)) {
     return res.status(400).json({ error: "Corps de requête invalide" });
   }
   try {
     for (const [key, value] of Object.entries(updates)) {
+      // Ignorer les clés non autorisées (mass-assignment protection)
+      if (!ALLOWED_CONFIG_KEYS.has(key)) continue;
       if (typeof value !== "string") continue;
+
+      // Tronquer pour éviter les dénis de service sur les champs texte
+      const sanitized = value.trim().slice(0, 500);
+
+      // Validation métier par clé
+      const validator = CONFIG_VALIDATORS[key];
+      if (validator && !validator(sanitized)) {
+        return res.status(400).json({ error: `Valeur invalide pour la clé : ${key}` });
+      }
+
       const [existing] = await db.select().from(siteConfigTable).where(eq(siteConfigTable.key, key));
       if (existing) {
-        await db.update(siteConfigTable).set({ value, updatedAt: new Date() }).where(eq(siteConfigTable.key, key));
+        await db.update(siteConfigTable).set({ value: sanitized, updatedAt: new Date() }).where(eq(siteConfigTable.key, key));
       } else {
-        await db.insert(siteConfigTable).values({ key, value });
+        await db.insert(siteConfigTable).values({ key, value: sanitized });
       }
     }
     return res.json({ success: true });
